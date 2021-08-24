@@ -1,0 +1,18 @@
+{
+  "BookInfo":{
+    "Title":"The Blood That Binds",
+    "Authors":[],
+    "Genre":"",
+    "Audience":"",
+    "Length":"",
+    "ExpectedLength":"",
+    "Tags":[],
+    "CreatedAt":""
+  },
+  "Editor":{},
+  "World":{},
+  "Characters":{},
+  "Outline":{},
+  "Print":{},
+  "Settings":{}
+}
