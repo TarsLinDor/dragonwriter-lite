@@ -24,19 +24,24 @@ const Split = styled.i`
 
 export function TabBar(props) {
   var state = props.Tabs;
-  function switch_col() {
+  function switch_view() {
     var newState = {
       ...props.Tabs
     };
-    if (newState.columnOrder[0].length > 1) {
-      console.log(newState);
+    if (Object.keys(newState.columns).length > 1) {
       newState.columns[Object.keys(newState.columns)[0]].tabIds.push(
         newState.columns[Object.keys(newState.columns)[1]].tabIds
       );
-      newState.columns[Object.keys(newState.columns)[1]].tabIds = [];
+      delete newState.columns[Object.keys(newState.columns)[1]];
       newState.columnOrder.pop();
     } else {
+      newState.columnOrder.push('column-2');
+      newState.columns = Object.assign(newState.columns, {
+        'column-2': { id: 'column-2', tabIds: [] }
+      });
     }
+    console.log(newState);
+    localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
   }
   function onDragEnd(result) {
@@ -124,7 +129,7 @@ export function TabBar(props) {
           );
         })}
         <Split
-          onClick={() => switch_col()}
+          onClick={() => switch_view()}
           className={
             props.Tabs.columnOrder.length > 1
               ? 'bi bi-square'
