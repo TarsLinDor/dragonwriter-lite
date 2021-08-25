@@ -42,13 +42,13 @@ export class TabBar extends React.Component {
     const finish = this.state.columns[destination.droppableId];
 
     if (start === finish) {
-      const newTabIds = Array.from(start.TabIds);
+      const newTabIds = Array.from(start.tabIds);
       newTabIds.splice(source.index, 1);
       newTabIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...start,
-        tabIds: newtabIds
+        tabIds: newTabIds
       };
 
       const newState = {
@@ -64,18 +64,18 @@ export class TabBar extends React.Component {
     }
 
     // Moving from one list to another
-    const starttabIds = Array.from(start.tabIds);
-    starttabIds.splice(source.index, 1);
+    const startTabIds = Array.from(start.tabIds);
+    startTabIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      tabIds: starttabIds
+      tabIds: startTabIds
     };
 
     const finishtabIds = Array.from(finish.tabIds);
-    finishtabIds.splice(destination.index, 0, draggableId);
+    finishTabIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      tabIds: finishtabIds
+      tabIds: finishTabIds
     };
 
     const newState = {
@@ -170,7 +170,7 @@ const TabList = styled.div`
   align-content: center;
 `;
 
-export default function Column(props) {
+function Column(props) {
   const [selected, setSelected] = useState(0);
   return (
     <Col>

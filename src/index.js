@@ -43,7 +43,7 @@ const initialData = {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: ['tab-1', 'tab-2']
+      tabIds: ['tab-1', 'tab-2']
     }
   },
   // Facilitate reordering of the columns
