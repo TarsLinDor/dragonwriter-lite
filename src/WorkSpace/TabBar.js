@@ -40,7 +40,6 @@ export function TabBar(props) {
         'column-2': { id: 'column-2', tabIds: [] }
       });
     }
-    console.log(newState);
     localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
   }
@@ -270,6 +269,23 @@ const Text = styled.div`
 `;
 
 function Tab(props) {
+  function removeTab(id) {
+    var newState = {
+      ...props.Tabs
+    };
+    delete newState.tabs[id];
+    for (let i = 0; i < Object.keys(newState.columns).length; i++) {
+      newState.columns[
+        Object.keys(newState.columns)[i]
+      ].tabIds = newState.columns[
+        Object.keys(newState.columns)[i]
+      ].tabIds.filter(item => item !== id);
+    }
+    console.log(newState);
+    props.setTabs(newState);
+    localStorage.tabs = JSON.stringify(newState);
+    return;
+  }
   return (
     <Draggable draggableId={props.tab.id} index={props.index}>
       {(provided, snapshot) => (
@@ -288,7 +304,11 @@ function Tab(props) {
             />
           }
           <Text>{props.tab.content}</Text>
-          <Button className="bi bi-x" darkmode={props.darkmode} />
+          <Button
+            className="bi bi-x"
+            darkmode={props.darkmode}
+            onClick={() => removeTab(props.tab.id)}
+          />
         </TabItem>
       )}
     </Draggable>

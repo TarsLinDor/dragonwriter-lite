@@ -87,7 +87,7 @@ export function NavBar(props) {
           <Folder
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
-            onClick={() => createNewBook('test', props.setBook)}
+            onClick={() => createNewBook('My Book', props.setBook)}
           >
             &nbsp; New Book
           </Folder>
