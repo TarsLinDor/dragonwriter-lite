@@ -78,9 +78,9 @@ const Bar = styled.div`
   z-index: 1;
   max-width: 2em;
   //border-top: ${props =>
-    props.darkmode ? 'solid 1.5px rgb(60, 60, 60)' : ''};
+    props.darkmode ? 'solid 1.5px rgb(60, 60, 60)' : 'solid 1.5px inherit'};
   border-right: ${props =>
-    props.darkmode ? 'solid 1.5px rgb(60, 60, 60)' : ''};
+    props.darkmode ? 'solid 1.5px rgb(60, 60, 60)' : 'solid 1.5px inherit'};
   flex-grow: 1;
 `;
 const Button = styled.button`
