@@ -35,15 +35,15 @@ const initialData = {
 */
 
 const initialData = {
-  tasks: {
-    'task-1': { id: 'task-1', content: 'Editor' },
-    'task-2': { id: 'task-2', content: 'Book' }
+  tabs: {
+    'tab-1': { id: 'tab-1', content: 'Editor' },
+    'tab-2': { id: 'tab-2', content: 'Book' }
   },
   columns: {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: ['task-1', 'task-2']
+      taskIds: ['tab-1', 'tab-2']
     }
   },
   // Facilitate reordering of the columns
@@ -85,7 +85,11 @@ function App() {
   return (
     <AppSpace>
       <NavBar {...globals} />
-      {view ? <MainMenu /> : <WorkSpace {...globals} {...{ Tabs: Tabs }} />}
+      {view ? (
+        <MainMenu />
+      ) : (
+        <WorkSpace {...globals} {...{ Tabs: Tabs, setTabs: setTabs }} />
+      )}
     </AppSpace>
   );
 }

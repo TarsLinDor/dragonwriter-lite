@@ -2,6 +2,95 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 const download = require('downloadjs');
 
+function createNewBook(Title, setBook) {
+  const newBook = require('./newBook.json');
+  newBook.BookInfo.Title = Title;
+  setBook(newBook);
+  download(JSON.stringify(newBook), Title + '.json', 'json');
+  localStorage.book = JSON.stringify(newBook);
+}
+
+function handleFileSelect(event, setBook) {
+  var json;
+  var files = event.target.files; // FileList object
+
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+  for (var i = 0, f; (f = files[i]); i++) {
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        try {
+          json = JSON.parse(e.target.result);
+          setBook(json).then();
+          localStorage.book = JSON.stringify(json);
+          console.log(json.BookInfo.Title + '\nLoaded Successfully!');
+        } catch (ex) {
+          alert('Failed To load File' + ex);
+        }
+      };
+    })(f);
+    reader.readAsText(f);
+  }
+}
+
+export function NavBar(props) {
+  return (
+    <Nav darkmode={props.darkmode}>
+      <Left>
+        <Title onClick={() => props.toggleView()}>
+          {props.AppName}
+          {props.Pro ? <Pro>Pro</Pro> : ''}
+        </Title>
+        {!props.view ? (
+          <Folder className="bi bi-folder" darkmode={props.darkmode}>
+            <Input
+              type="file"
+              id="files"
+              name="files[]"
+              accept="json/*"
+              onChange={evt => handleFileSelect(evt, props.setBook)}
+            />
+          </Folder>
+        ) : (
+          ''
+        )}
+        {props.book ? (
+          <Book>{!props.view ? props.book.BookInfo.Title : 'Main Menu'}</Book>
+        ) : (
+          <Book>{!props.view ? 'No Book Selected' : 'Main Menu'}</Book>
+        )}
+        {!props.view ? (
+          <Folder
+            className={props.saved ? 'bi bi-check2' : 'bi bi-arrow-repeat'}
+            darkmode={props.darkmode}
+            onClick={() => props.toggleSaved()}
+          />
+        ) : (
+          ''
+        )}
+      </Left>
+      <Left>
+        {!props.view ? (
+          <Folder
+            className="bi bi-folder-plus"
+            darkmode={props.darkmode}
+            onClick={() => createNewBook('test', props.setBook)}
+          >
+            &nbsp; New Book
+          </Folder>
+        ) : (
+          ''
+        )}
+
+        {<MenuBar onClick={() => props.toggleView()} className="bi bi-list" />}
+      </Left>
+    </Nav>
+  );
+}
+
 const Nav = styled.div`
   display: flex;
   background-color: ${props =>
@@ -70,92 +159,3 @@ const Pro = styled.div`
 const Input = styled.input`
   display: none;
 `;
-
-var json;
-
-function createNewBook(Title, setBook) {
-  const newBook = require('./newBook.json');
-  newBook.BookInfo.Title = Title;
-  download(JSON.stringify(newBook), Title + '.json', 'json');
-  localStorage.book = JSON.stringify(newBook);
-}
-
-function handleFileSelect(event, setBook) {
-  var files = event.target.files; // FileList object
-
-  // files is a FileList of File objects. List some properties.
-  var output = [];
-  for (var i = 0, f; (f = files[i]); i++) {
-    var reader = new FileReader();
-
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-      return function(e) {
-        try {
-          json = JSON.parse(e.target.result);
-          setBook(json);
-          localStorage.book = JSON.stringify(json);
-          console.log(json.BookInfo.Title + '\nLoaded Successfully!');
-        } catch (ex) {
-          alert('Failed To load File' + ex);
-        }
-      };
-    })(f);
-    reader.readAsText(f);
-  }
-}
-
-export function NavBar(props) {
-  return (
-    <Nav darkmode={props.darkmode}>
-      <Left>
-        <Title onClick={() => props.toggleView()}>
-          {props.AppName}
-          {props.Pro ? <Pro>Pro</Pro> : ''}
-        </Title>
-        {!props.view ? (
-          <Folder className="bi bi-folder" darkmode={props.darkmode}>
-            <Input
-              type="file"
-              id="files"
-              name="files[]"
-              accept="json/*"
-              onChange={evt => handleFileSelect(evt, props.setBook)}
-            />
-          </Folder>
-        ) : (
-          ''
-        )}
-        {props.book ? (
-          <Book>{!props.view ? props.book.BookInfo.Title : 'Main Menu'}</Book>
-        ) : (
-          <Book>{!props.view ? 'No Book Selected' : 'Main Menu'}</Book>
-        )}
-        {!props.view ? (
-          <Folder
-            className={props.saved ? 'bi bi-check2' : 'bi bi-arrow-repeat'}
-            darkmode={props.darkmode}
-            onClick={() => props.toggleSaved()}
-          />
-        ) : (
-          ''
-        )}
-      </Left>
-      <Left>
-        {!props.view ? (
-          <Folder
-            className="bi bi-folder-plus"
-            darkmode={props.darkmode}
-            onClick={() => createNewBook('test', props.setBook)}
-          >
-            &nbsp; New Book
-          </Folder>
-        ) : (
-          ''
-        )}
-
-        {<MenuBar onClick={() => props.toggleView()} className="bi bi-list" />}
-      </Left>
-    </Nav>
-  );
-}

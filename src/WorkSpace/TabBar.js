@@ -1,8 +1,122 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import '@atlaskit/css-reset';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  height: 2em;
+`;
+const Split = styled.i`
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  background-color: rgb(250, 250, 250, 0.1);
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+  &:hover {
+    color: rgb(200, 200, 200);
+  }'
+`;
+
+export class TabBar extends React.Component {
+  state = this.props.Tabs;
+
+  onDragEnd = result => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
+
+    if (start === finish) {
+      const newTabIds = Array.from(start.TabIds);
+      newTabIds.splice(source.index, 1);
+      newTabIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        tabIds: newtabIds
+      };
+
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      };
+
+      this.setState(newState);
+      return;
+    }
+
+    // Moving from one list to another
+    const starttabIds = Array.from(start.tabIds);
+    starttabIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      tabIds: starttabIds
+    };
+
+    const finishtabIds = Array.from(finish.tabIds);
+    finishtabIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      tabIds: finishtabIds
+    };
+
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish
+      }
+    };
+    this.setState(newState);
+  };
+
+  render() {
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Container>
+          {this.state.columnOrder.map(columnId => {
+            const column = this.state.columns[columnId];
+            const tabs = column.tabIds.map(tabId => this.state.tabs[tabId]);
+
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tabs={tabs}
+                darkmode={this.props.darkmode}
+              />
+            );
+          })}
+          <Split
+            className="bi bi-layout-split"
+            darkmode={this.props.darkmode}
+          />
+        </Container>
+      </DragDropContext>
+    );
+  }
+}
+
+const Col = styled.div`
   margin: 0px;
   //border-radius: 2px;
   width: 100%;
@@ -59,7 +173,7 @@ const TabList = styled.div`
 export default function Column(props) {
   const [selected, setSelected] = useState(0);
   return (
-    <Container>
+    <Col>
       <Droppable droppableId={props.column.id} direction="horizontal">
         {(provided, snapshot) => (
           <TabList
@@ -68,10 +182,10 @@ export default function Column(props) {
             isDraggingOver={snapshot.isDraggingOver}
             {...props}
           >
-            {props.tasks.map((task, index) => (
-              <Task
-                key={task.id}
-                task={task}
+            {props.tabs.map((tab, index) => (
+              <Tab
+                key={tab.id}
+                tab={tab}
                 index={index}
                 {...props}
                 selected={selected}
@@ -82,11 +196,11 @@ export default function Column(props) {
           </TabList>
         )}
       </Droppable>
-    </Container>
+    </Col>
   );
 }
 
-const Tab = styled.div`
+const TabItem = styled.div`
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   height: 2em;
   min-width: 6em;
@@ -129,11 +243,11 @@ const Text = styled.div`
   align-items: center;
 `;
 
-function Task(props) {
+function Tab(props) {
   return (
-    <Draggable draggableId={props.task.id} index={props.index}>
+    <Draggable draggableId={props.tab.id} index={props.index}>
       {(provided, snapshot) => (
-        <Tab
+        <TabItem
           {...provided.draggableProps}
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
@@ -144,12 +258,12 @@ function Task(props) {
           {
             <Handle
               {...provided.dragHandleProps}
-              className={setIcon(props.task.content)}
+              className={setIcon(props.tab.content)}
             />
           }
-          <Text>{props.task.content}</Text>
+          <Text>{props.tab.content}</Text>
           <Button className="bi bi-x" darkmode={props.darkmode} />
-        </Tab>
+        </TabItem>
       )}
     </Draggable>
   );

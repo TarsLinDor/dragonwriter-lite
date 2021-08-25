@@ -1,6 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { usePopper } from 'react-popper';
+
+export function Toolbar(props) {
+  function addTool(e) {}
+  return (
+    <Bar {...props}>
+      <Section>
+        <Button
+          {...props}
+          onClick={() => addTool('Book')}
+          className="bi bi-bookmark"
+        />
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-vector-pen"
+        />
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-tree"
+        />
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-people"
+        />
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-snow3"
+        />
+        {/*<Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-arrow-repeat"
+        />*/}
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-printer"
+        />
+      </Section>
+      <Section>
+        <Button
+          {...props}
+          onClick={() => props.toggleDarkmode()}
+          className={props.darkmode ? 'bi bi-brightness-high' : 'bi bi-moon'}
+        />
+        <Button
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-gear"
+        />
+        <Button2
+          {...props}
+          onClick={() => addTool('editor')}
+          className="bi bi-box-arrow-right"
+        />
+      </Section>
+    </Bar>
+  );
+}
+
+//CSS for TabBar...
+
 const Bar = styled.div`
   background-color: ${props =>
     props.darkmode ? 'rgb(35, 35, 35)' : '#6d5940'};
@@ -65,65 +130,3 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-export function Toolbar(props) {
-  function addTool(e) {}
-  return (
-    <Bar {...props}>
-      <Section>
-        <Button
-          {...props}
-          onClick={() => addTool('Book')}
-          className="bi bi-bookmark"
-        />
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-vector-pen"
-        />
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-tree"
-        />
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-people"
-        />
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-snow3"
-        />
-        {/*<Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-arrow-repeat"
-        />*/}
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-printer"
-        />
-      </Section>
-      <Section>
-        <Button
-          {...props}
-          onClick={() => props.toggleDarkmode()}
-          className={props.darkmode ? 'bi bi-brightness-high' : 'bi bi-moon'}
-        />
-        <Button
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-gear"
-        />
-        <Button2
-          {...props}
-          onClick={() => addTool('editor')}
-          className="bi bi-box-arrow-right"
-        />
-      </Section>
-    </Bar>
-  );
-}
