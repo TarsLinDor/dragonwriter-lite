@@ -43,7 +43,9 @@ function App() {
   const [view, toggleView] = useToggle(false);
   const [darkmode, toggleDarkmode] = useToggle(true);
   const [book, setBook] = useState(
-    localStorage.book ? JSON.parse(localStorage.book) : ''
+    localStorage.book
+      ? JSON.parse(localStorage.book)
+      : require('./newBook.json')
   );
   const [Tabs, setTabs] = useState(initialData);
   const [saved, toggleSaved] = useToggle(
