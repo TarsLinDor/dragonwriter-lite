@@ -1,35 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { usePopper } from 'react-popper';
+const randomHex = require('crypto-random-hex');
 
 export function Toolbar(props) {
-  function addTool(e) {}
+  function addTool(e) {
+    var newState = Object.create(props.Tabs);
+    const newId = 'tab-' + randomHex(3);
+    newState.tabs = Object.assign(newState.tabs, {
+      [newId]: { id: newId, content: e }
+    });
+    newState.columns[
+      Object.keys(newState.columns)[newState.columns.length < 1]
+    ].tabIds.push(newId);
+    props.setTabs(newState);
+    console.log(props.Tabs);
+  }
+
   return (
     <Bar {...props}>
       <Section>
         <Button
           {...props}
-          onClick={() => addTool('Book')}
+          onClick={() => addTool('BookInfo')}
           className="bi bi-bookmark"
         />
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('Editor')}
           className="bi bi-vector-pen"
         />
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('World')}
           className="bi bi-tree"
         />
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('Characters')}
           className="bi bi-people"
         />
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('Outline')}
           className="bi bi-snow3"
         />
         {/*<Button
@@ -39,7 +52,7 @@ export function Toolbar(props) {
         />*/}
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('Print')}
           className="bi bi-printer"
         />
       </Section>
@@ -51,12 +64,12 @@ export function Toolbar(props) {
         />
         <Button
           {...props}
-          onClick={() => addTool('editor')}
+          onClick={() => addTool('Settings')}
           className="bi bi-gear"
         />
         <Button2
           {...props}
-          onClick={() => addTool('editor')}
+          //logout
           className="bi bi-box-arrow-right"
         />
       </Section>

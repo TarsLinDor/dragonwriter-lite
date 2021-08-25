@@ -22,10 +22,10 @@ const Split = styled.i`
   }'
 `;
 
-export class TabBar extends React.Component {
-  state = this.props.Tabs;
+export function TabBar(props) {
+  var state = props.Tabs;
 
-  onDragEnd = result => {
+  function onDragEnd(result) {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -39,8 +39,8 @@ export class TabBar extends React.Component {
       return;
     }
 
-    const start = this.state.columns[source.droppableId];
-    const finish = this.state.columns[destination.droppableId];
+    const start = state.columns[source.droppableId];
+    const finish = state.columns[destination.droppableId];
 
     if (start === finish) {
       const newTabIds = Array.from(start.tabIds);
@@ -53,14 +53,14 @@ export class TabBar extends React.Component {
       };
 
       const newState = {
-        ...this.state,
+        ...state,
         columns: {
-          ...this.state.columns,
+          ...state.columns,
           [newColumn.id]: newColumn
         }
       };
-
-      this.setState(newState);
+      console.log(newState);
+      props.setTabs(newState);
       return;
     }
 
@@ -80,51 +80,46 @@ export class TabBar extends React.Component {
     };
 
     const newState = {
-      ...this.state,
+      ...state,
       columns: {
-        ...this.state.columns,
+        ...state.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish
       }
     };
-    this.setState(newState);
-  };
-
-  render() {
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Container darkmode={this.props.darkmode}>
-          {this.state.columnOrder.map(columnId => {
-            const column = this.state.columns[columnId];
-            const tabs = column.tabIds.map(tabId => this.state.tabs[tabId]);
-
-            return (
-              <Column
-                key={column.id}
-                column={column}
-                tabs={tabs}
-                darkmode={this.props.darkmode}
-              />
-            );
-          })}
-          <Split
-            className="bi bi-layout-split"
-            darkmode={this.props.darkmode}
-          />
-        </Container>
-      </DragDropContext>
-    );
+    props.setTabs(newState);
+    return;
   }
+
+  return (
+    <DragDropContext onDragEnd={result => onDragEnd(result)}>
+      <Container darkmode={props.darkmode}>
+        {state.columnOrder.map(columnId => {
+          const column = state.columns[columnId];
+          const tabs = column.tabIds.map(tabId => state.tabs[tabId]);
+          return (
+            <Column
+              key={column.id}
+              column={column}
+              tabs={tabs}
+              darkmode={props.darkmode}
+            />
+          );
+        })}
+        <Split className="bi bi-layout-split" darkmode={props.darkmode} />
+      </Container>
+    </DragDropContext>
+  );
 }
 
 const Col = styled.div`
   margin: 0px;
   //border-radius: 2px;
-  width: 50%;
+  //width: 100%;
   height: 2em;
   display: flex;
   flex-direction: row;
-  //flex-grow: 1;
+  flex-grow: 1;
   overflow-x: auto;
   overflow-y: hidden;
   ::-webkit-scrollbar {
@@ -273,7 +268,7 @@ function Tab(props) {
 function setIcon(type) {
   // Sets Which icon is visible in the tab.
   switch (type) {
-    case 'Book':
+    case 'BookInfo':
       return 'bi bi-bookmark';
     case 'Editor':
       return 'bi bi-vector-pen';

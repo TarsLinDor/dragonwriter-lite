@@ -10,22 +10,16 @@ const { NavBar } = require('./Navbar.js');
 
 const initialData = {
   tabs: {
-    'tab-1': { id: 'tab-1', content: 'Editor' },
-    'tab-2': { id: 'tab-2', content: 'Book' },
-    'tab-3': { id: 'tab-3', content: 'Outline' }
+    'tab-1': { id: 'tab-1', content: 'BookInfo' }
   },
   columns: {
     'column-1': {
       id: 'column-1',
-      tabIds: ['tab-1', 'tab-2']
-    },
-    'column-2': {
-      id: 'column-2',
-      tabIds: ['tab-3']
+      tabIds: ['tab-1']
     }
   },
   // Facilitate reordering of the columns
-  columnOrder: ['column-1', 'column-2']
+  columnOrder: ['column-1']
 };
 
 const AppSpace = styled.div`
@@ -47,7 +41,9 @@ function App() {
       ? JSON.parse(localStorage.book)
       : require('./newBook.json')
   );
-  const [Tabs, setTabs] = useState(initialData);
+  const [Tabs, setTabs] = useState(
+    localStorage.tabs ? localStorage.tabs : initialData
+  );
   const [saved, toggleSaved] = useToggle(
     JSON.stringify(book) == localStorage.book
   );
