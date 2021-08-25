@@ -60,6 +60,7 @@ export function TabBar(props) {
         }
       };
       console.log(newState);
+      localStorage.tabs = JSON.stringify(newState);
       props.setTabs(newState);
       return;
     }
@@ -87,6 +88,7 @@ export function TabBar(props) {
         [newFinish.id]: newFinish
       }
     };
+    localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
     return;
   }
