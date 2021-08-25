@@ -117,11 +117,11 @@ export function TabBar(props) {
 const Col = styled.div`
   margin: 0px;
   //border-radius: 2px;
-  //width: 100%;
+  width: 100%;
   height: 2em;
   display: flex;
   flex-direction: row;
-  flex-grow: .5;
+  flex-grow: 0.5;
   overflow-x: auto;
   overflow-y: hidden;
   ::-webkit-scrollbar {
