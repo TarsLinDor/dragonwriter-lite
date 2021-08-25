@@ -24,7 +24,21 @@ const Split = styled.i`
 
 export function TabBar(props) {
   var state = props.Tabs;
-
+  function switch_col() {
+    var newState = {
+      ...props.Tabs
+    };
+    if (newState.columnOrder[0].length > 1) {
+      console.log(newState);
+      newState.columns[Object.keys(newState.columns)[0]].tabIds.push(
+        newState.columns[Object.keys(newState.columns)[1]].tabIds
+      );
+      newState.columns[Object.keys(newState.columns)[1]].tabIds = [];
+      newState.columnOrder.pop();
+    } else {
+    }
+    props.setTabs(newState);
+  }
   function onDragEnd(result) {
     const { destination, source, draggableId } = result;
 
@@ -101,6 +115,7 @@ export function TabBar(props) {
           const tabs = column.tabIds.map(tabId => state.tabs[tabId]);
           return (
             <Column
+              {...props}
               key={column.id}
               column={column}
               tabs={tabs}
@@ -108,7 +123,15 @@ export function TabBar(props) {
             />
           );
         })}
-        <Split className="bi bi-layout-split" darkmode={props.darkmode} />
+        <Split
+          onClick={() => switch_col()}
+          className={
+            props.Tabs.columnOrder.length > 1
+              ? 'bi bi-square'
+              : 'bi bi-layout-split'
+          }
+          darkmode={props.darkmode}
+        />
       </Container>
     </DragDropContext>
   );
