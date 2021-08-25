@@ -5,16 +5,21 @@ const randomHex = require('crypto-random-hex');
 
 export function Toolbar(props) {
   function addTool(e) {
-    var newState = Object.create(props.Tabs);
+    var newState = {
+      ...props.Tabs
+    };
+    console.log(Object.keys(newState.columns).length);
     const newId = 'tab-' + randomHex(3);
+
     newState.tabs = Object.assign(newState.tabs, {
       [newId]: { id: newId, content: e }
     });
+
     newState.columns[
-      Object.keys(newState.columns)[newState.columns.length < 1]
+      Object.keys(newState.columns)[Object.keys(newState.columns).length - 1]
     ].tabIds.push(newId);
     props.setTabs(newState);
-    console.log(props.Tabs);
+    localStorage.tabs = JSON.stringify(newState);
   }
 
   return (
@@ -22,7 +27,7 @@ export function Toolbar(props) {
       <Section>
         <Button
           {...props}
-          onClick={() => addTool('BookInfo')}
+          onClick={() => addTool('BookInfo', props.Tabs)}
           className="bi bi-bookmark"
         />
         <Button
