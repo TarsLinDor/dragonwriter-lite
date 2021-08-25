@@ -37,17 +37,21 @@ const initialData = {
 const initialData = {
   tabs: {
     'tab-1': { id: 'tab-1', content: 'Editor' },
-    'tab-2': { id: 'tab-2', content: 'Book' }
+    'tab-2': { id: 'tab-2', content: 'Book' },
+    'tab-3': { id: 'tab-3', content: 'Outline' }
   },
   columns: {
     'column-1': {
       id: 'column-1',
-      title: 'To do',
       tabIds: ['tab-1', 'tab-2']
+    },
+    'column-2': {
+      id: 'column-2',
+      tabIds: ['tab-3']
     }
   },
   // Facilitate reordering of the columns
-  columnOrder: ['column-1']
+  columnOrder: ['column-1', 'column-2']
 };
 
 const AppSpace = styled.div`

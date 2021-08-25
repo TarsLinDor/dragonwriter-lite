@@ -71,7 +71,7 @@ export class TabBar extends React.Component {
       tabIds: startTabIds
     };
 
-    const finishtabIds = Array.from(finish.tabIds);
+    const finishTabIds = Array.from(finish.tabIds);
     finishTabIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
@@ -119,11 +119,11 @@ export class TabBar extends React.Component {
 const Col = styled.div`
   margin: 0px;
   //border-radius: 2px;
-  width: 100%;
+  width: 50%;
   height: 2em;
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
+  //flex-grow: 1;
   overflow-x: auto;
   overflow-y: hidden;
   ::-webkit-scrollbar {
