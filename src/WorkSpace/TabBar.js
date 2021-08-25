@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: row;
   flex-grow: 1;
   height: 2em;
+  background-color: ${props => (props.darkmode ? 'inherit' : '#40526d')};
 `;
 const Split = styled.i`
   display: flex;
@@ -92,7 +93,7 @@ export class TabBar extends React.Component {
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <Container>
+        <Container darkmode={this.props.darkmode}>
           {this.state.columnOrder.map(columnId => {
             const column = this.state.columns[columnId];
             const tabs = column.tabIds.map(tabId => this.state.tabs[tabId]);

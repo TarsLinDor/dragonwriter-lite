@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 const download = require('downloadjs');
 
+function SaveBook_internally(book, setBook) {
+  setBook(book);
+  localStorage.book = JSON.stringify(book);
+}
+
+function SaveBook_locally(book, setBook) {
+  setBook(book);
+  localStorage.book = JSON.stringify(book);
+  download(JSON.stringify(book), book.BookInfo.Title + '.json', 'json');
+}
+
 function createNewBook(Title, setBook) {
   const newBook = require('./newBook.json');
   newBook.BookInfo.Title = Title;
@@ -24,8 +35,7 @@ function handleFileSelect(event, setBook) {
       return function(e) {
         try {
           json = JSON.parse(e.target.result);
-          setBook(json).then();
-          localStorage.book = JSON.stringify(json);
+          SaveBook(json, setBook);
           console.log(json.BookInfo.Title + '\nLoaded Successfully!');
         } catch (ex) {
           alert('Failed To load File' + ex);
