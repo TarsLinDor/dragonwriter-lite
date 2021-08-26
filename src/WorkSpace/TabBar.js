@@ -196,7 +196,6 @@ const TabList = styled.div`
 `;
 
 function Column(props) {
-  const [selected, setSelected] = useState(0);
   return (
     <Col>
       <Droppable droppableId={props.column.id} direction="horizontal">
@@ -208,14 +207,7 @@ function Column(props) {
             {...props}
           >
             {props.tabs.map((tab, index) => (
-              <Tab
-                key={tab.id}
-                tab={tab}
-                index={index}
-                {...props}
-                selected={selected}
-                setSelected={setSelected}
-              />
+              <Tab key={tab.id} tab={tab} index={index} {...props} />
             ))}
             {provided.placeholder}
           </TabList>
@@ -269,6 +261,13 @@ const Text = styled.div`
 `;
 
 function Tab(props) {
+  function setSelected(id) {
+    var newState = {
+      ...props.Tabs
+    };
+    newState.columns[props.column.id].selected = id;
+    props.setTabs(newState);
+  }
   function removeTab(id) {
     var newState = {
       ...props.Tabs
@@ -294,8 +293,8 @@ function Tab(props) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           darkmode={props.darkmode}
-          notSelected={props.index == props.selected}
-          onClick={() => props.setSelected(props.index)}
+          notSelected={props.tab.id == props.column.selected}
+          onClick={() => setSelected(props.tab.id)}
         >
           {
             <Handle
