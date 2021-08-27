@@ -28,17 +28,21 @@ export function TabBar(props) {
     var newState = {
       ...props.Tabs
     };
-    if (Object.keys(newState.columns).length > 1) {
+    if (newState.columnOrder.length > 1) {
       newState.columns[Object.keys(newState.columns)[0]].tabIds.push(
         newState.columns[Object.keys(newState.columns)[1]].tabIds
       );
-      delete newState.columns[Object.keys(newState.columns)[1]];
+      //delete newState.columns[Object.keys(newState.columns)[1]];
       newState.columnOrder.pop();
     } else {
-      newState.columnOrder.push('column-2');
       newState.columns = Object.assign(newState.columns, {
-        'column-2': { id: 'column-2', tabIds: [] }
+        'column-2': {
+          id: 'column-2',
+          selected: newState.columns[Object.keys(newState.columns)[0]].selected,
+          tabIds: [newState.columns[Object.keys(newState.columns)[0]].selected]
+        }
       });
+      newState.columnOrder.push('column-2');
     }
     localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
