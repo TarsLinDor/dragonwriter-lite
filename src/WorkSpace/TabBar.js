@@ -28,10 +28,16 @@ export function TabBar(props) {
     var newState = {
       ...props.Tabs
     };
+    console.log(newState.columns[Object.keys(newState.columns)[1]].tabIds);
     if (newState.columnOrder.length > 1) {
-      newState.columns[Object.keys(newState.columns)[0]].tabIds.push(
+      newState.columns[
+        Object.keys(newState.columns)[0]
+      ].tabIds = newState.columns[
+        Object.keys(newState.columns)[0]
+      ].tabIds.concat(
         newState.columns[Object.keys(newState.columns)[1]].tabIds
       );
+      console.log(newState.columns);
       //delete newState.columns[Object.keys(newState.columns)[1]];
       newState.columnOrder.pop();
     } else {
@@ -42,6 +48,8 @@ export function TabBar(props) {
           tabIds: [newState.columns[Object.keys(newState.columns)[0]].selected]
         }
       });
+
+      console.log(newState.columns);
       newState.columnOrder.push('column-2');
     }
     localStorage.tabs = JSON.stringify(newState);
