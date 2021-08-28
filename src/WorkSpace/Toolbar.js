@@ -8,16 +8,16 @@ export function Toolbar(props) {
     var newState = {
       ...props.Tabs
     };
-    console.log(Object.keys(newState.columns).length);
     const newId = 'tab-' + randomHex(3);
-
     newState.tabs = Object.assign(newState.tabs, {
       [newId]: { id: newId, content: e }
     });
-
     newState.columns[
-      Object.keys(newState.columns)[Object.keys(newState.columns).length - 1]
+      Object.keys(newState.columns)[newState.columnOrder.length - 1]
     ].tabIds.push(newId);
+    newState.columns[
+      Object.keys(newState.columns)[newState.columnOrder.length - 1]
+    ].selected = newId;
     props.setTabs(newState);
     localStorage.tabs = JSON.stringify(newState);
   }
@@ -27,7 +27,7 @@ export function Toolbar(props) {
       <Section>
         <Button
           {...props}
-          onClick={() => addTool('BookInfo', props.Tabs)}
+          onClick={() => addTool('BookInfo')}
           className="bi bi-bookmark"
         />
         <Button
