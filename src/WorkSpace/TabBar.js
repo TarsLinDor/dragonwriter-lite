@@ -248,10 +248,10 @@ const TabItem = styled.div`
   border-right: ${props => (props.darkmode ? '1px' : '0px')};
   background-color: ${props =>
     props.darkmode
-      ? props.isDragging || props.notSelected
+      ? props.isDragging || props.selected
         ? 'rgb(30,30,30)'
         : 'rgb(45, 45, 45)'
-      : props.isDragging || props.notSelected
+      : props.isDragging || props.selected
       ? 'whitesmoke'
       : 'lightgrey'};
   display: flex;
@@ -330,7 +330,7 @@ function Tab(props) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           darkmode={props.darkmode}
-          notSelected={props.tab.id == props.column.selected}
+          selected={props.tab.id == props.column.selected}
           onClick={() => setSelected(props.tab.id)}
         >
           {
