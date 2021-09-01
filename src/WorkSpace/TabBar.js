@@ -125,8 +125,8 @@ export function TabBar(props) {
         [newFinish.id]: newFinish
       }
     };
-    
-    console.log(draggableId);
+
+    //console.log(draggableId);
 
     localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
@@ -290,22 +290,30 @@ function Tab(props) {
     newState.columns[props.column.id].selected = id;
     props.setTabs(newState);
   }
+
   function removeTab(id) {
     var newState = {
       ...props.Tabs
     };
     delete newState.tabs[id];
+
     for (let i = 0; i < Object.keys(newState.columns).length; i++) {
-      newState.columns[
-        Object.keys(newState.columns)[i]
-      ].tabIds = newState.columns[
-        Object.keys(newState.columns)[i]
-      ].tabIds.filter(item => item !== id);
+      var column = newState.columns[Object.keys(newState.columns)[i]];
+      column.tabIds = column.tabIds.filter(item => item !== id);
+      if (column.selected == id) {
+        column.selected = column.tabIds[0] ? column.tabIds[0] : '';
+      } else {
+        column.selected = column.tabIds[0];
+      }
+      newState.columns[Object.keys(newState.columns)[i]] = column;
     }
+    if (newState.columns[Object.keys(newState.columns)[1]].tabIds.length <= 0) {
+      newState.columnOrder.pop();
+    }
+
     console.log(newState);
     props.setTabs(newState);
     localStorage.tabs = JSON.stringify(newState);
-    return;
   }
   return (
     <Draggable draggableId={props.tab.id} index={props.index}>
