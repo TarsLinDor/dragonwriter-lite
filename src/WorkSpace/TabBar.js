@@ -56,7 +56,7 @@ export function TabBar(props) {
         1
       );
       newState.columns[Object.keys(newState.columns)[0]].selected =
-      newState.columns[Object.keys(newState.columns)[0]].tabIds[0];
+        newState.columns[Object.keys(newState.columns)[0]].tabIds[0];
       newState.columnOrder.push('column-2');
     }
     localStorage.tabs = JSON.stringify(newState);
@@ -125,6 +125,9 @@ export function TabBar(props) {
         [newFinish.id]: newFinish
       }
     };
+    
+    console.log(draggableId);
+
     localStorage.tabs = JSON.stringify(newState);
     props.setTabs(newState);
     return;

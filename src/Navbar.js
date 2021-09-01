@@ -22,7 +22,7 @@ function createNewBook(Title, setBook) {
 }
 
 function handleFileSelect(event, setBook) {
-  var json;
+  var book;
   var files = event.target.files; // FileList object
 
   // files is a FileList of File objects. List some properties.
@@ -34,9 +34,10 @@ function handleFileSelect(event, setBook) {
     reader.onload = (function(theFile) {
       return function(e) {
         try {
-          json = JSON.parse(e.target.result);
-          SaveBook(json, setBook);
-          console.log(json.BookInfo.Title + '\nLoaded Successfully!');
+          book = JSON.parse(e.target.result);
+          setBook(book);
+          localStorage.book = JSON.stringify(book);
+          console.log(book.BookInfo.Title + '\nLoaded Successfully!');
         } catch (ex) {
           alert('Failed To load File' + ex);
         }
