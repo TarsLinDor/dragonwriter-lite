@@ -7,13 +7,14 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
-  height: 2em;
+  //flex-grow: 1;
+  max-height: 2em;
   background-color: ${props => (props.darkmode ? 'inherit' : '#40526d')};
 `;
 const Split = styled.i`
   display: flex;
   align-items: center;
+  height: 1em;
   padding: 0.5em;
   background-color: rgb(250, 250, 250, 0.1);
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
