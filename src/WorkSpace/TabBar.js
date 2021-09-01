@@ -48,6 +48,17 @@ export function TabBar(props) {
           tabIds: [newState.columns[Object.keys(newState.columns)[0]].selected]
         }
       });
+      const selectedIndex = newState.columns[
+        Object.keys(newState.columns)[0]
+      ].tabIds.indexOf(
+        newState.columns[Object.keys(newState.columns)[0]].selected
+      );
+      newState.columns[Object.keys(newState.columns)[0]].tabIds.splice(
+        selectedIndex,
+        1
+      );
+      newState.columns[Object.keys(newState.columns)[0]].selected =
+        newState.columns[Object.keys(newState.columns)[0]].tabIds[0];
 
       console.log(newState.columns);
       newState.columnOrder.push('column-2');
