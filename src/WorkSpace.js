@@ -18,11 +18,7 @@ const Area = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  border-right: ${props => (props.darkmode ? 'solid 1px rgb(60, 60, 60)' : '')};
-  border-bottom: ${props =>
-    props.darkmode ? 'solid 1px rgb(60, 60, 60)' : ''};
 `;
-const Tool = styled.div``;
 
 export function WorkSpace(props) {
   return (
@@ -30,8 +26,44 @@ export function WorkSpace(props) {
       <Toolbar {...props} />
       <Area {...props}>
         <TabBar {...props} />
-        <Tool>Test</Tool>
+        <ToolArea {...props}>Test</ToolArea>
       </Area>
     </Workspace>
   );
+}
+const ToolContianer = styled.div`
+  display: flex;
+  flex-direction: row;
+  //background-color: red;
+  flex-grow: 1;
+  width: 100%;
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+`;
+const Tool = styled.div`
+  flex-direction: column;
+  //background-color: blue;
+  flex-grow: 1;
+  width: 100%;
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+`;
+function ToolArea(props) {
+  const selectedTab = props.Tabs.columns['column-1'].selected;
+  const Tools =
+    props.Tabs.columnOrder.length - 1 ? (
+      <ToolContianer>
+        <Tool {...props}>
+          {props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
+        </Tool>
+        <Tool {...props}>
+          {props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content}
+        </Tool>
+      </ToolContianer>
+    ) : (
+      <ToolContianer>
+        <Tool {...props}>
+          {props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
+        </Tool>
+      </ToolContianer>
+    );
+  return Tools;
 }
