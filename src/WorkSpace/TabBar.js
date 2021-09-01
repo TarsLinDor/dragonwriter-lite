@@ -310,6 +310,13 @@ function Tab(props) {
     if (newState.columns[Object.keys(newState.columns)[1]].tabIds.length <= 0) {
       newState.columnOrder.pop();
     }
+    if (newState.columns[Object.keys(newState.columns)[0]].tabIds.length <= 0) {
+      newState.columns[Object.keys(newState.columns)[0]].tabIds =
+        newState.columns[Object.keys(newState.columns)[1]].tabIds;
+      newState.columns[Object.keys(newState.columns)[0]].selected =
+        newState.columns[Object.keys(newState.columns)[0]].selected;
+      newState.columnOrder.pop();
+    }
 
     console.log(newState);
     props.setTabs(newState);
