@@ -12,11 +12,14 @@ const Container = styled.div`
   background-color: ${props => (props.darkmode ? 'inherit' : '#40526d')};
 `;
 const Split = styled.i`
+  position: absolute;
   display: flex;
+  right: 0;
   align-items: center;
   height: 1em;
   padding: 0.5em;
-  background-color: rgb(250, 250, 250, 0.1);
+  z-index: 2;
+  background-color: ${props => (props.darkmode ? 'rgb(50, 50, 50)':'')};
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   &:hover {
     color: rgb(200, 200, 200);

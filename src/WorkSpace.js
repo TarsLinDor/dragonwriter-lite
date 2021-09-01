@@ -8,7 +8,8 @@ const Workspace = styled.div`
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  border-right: ${props => (props.darkmode ? 'solid 1px rgb(60, 60, 60)' : '')};
+  //border-right: ${props =>
+    props.darkmode ? 'solid 1px rgb(60, 60, 60)' : ''};
   border-bottom: ${props =>
     props.darkmode ? 'solid 1px rgb(60, 60, 60)' : ''};
 `;
