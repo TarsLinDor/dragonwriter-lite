@@ -28,7 +28,7 @@ export function TabBar(props) {
     var newState = {
       ...props.Tabs
     };
-    console.log(newState.columns[Object.keys(newState.columns)[1]].tabIds);
+
     if (newState.columnOrder.length > 1) {
       newState.columns[
         Object.keys(newState.columns)[0]
@@ -136,13 +136,14 @@ export function TabBar(props) {
   return (
     <DragDropContext onDragEnd={result => onDragEnd(result)}>
       <Container darkmode={props.darkmode}>
-        {state.columnOrder.map(columnId => {
+        {state.columnOrder.map((columnId, index) => {
           const column = state.columns[columnId];
           const tabs = column.tabIds.map(tabId => state.tabs[tabId]);
           return (
             <Column
               {...props}
               key={column.id}
+              columnIndex={index}
               column={column}
               tabs={tabs}
               darkmode={props.darkmode}
@@ -330,7 +331,12 @@ function Tab(props) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           darkmode={props.darkmode}
-          selected={props.tab.id == props.column.selected}
+          selected={
+            props.tab.id ==
+            props.Tabs.columns[
+              Object.keys(props.Tabs.columns)[props.columnIndex]
+            ].selected
+          }
           onClick={() => setSelected(props.tab.id)}
         >
           {
