@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 const download = require('downloadjs');
+const { useToggle } = require('./UI-Functions/Toggle-UI.js');
 
 function SaveBook_internally(book, setBook) {
   setBook(book);
@@ -48,6 +49,7 @@ function handleFileSelect(event, setBook) {
 }
 
 export function NavBar(props) {
+  const [options, toggleOptions] = useToggle(1);
   return (
     <Nav darkmode={props.darkmode}>
       <Left>
@@ -55,19 +57,6 @@ export function NavBar(props) {
           {props.AppName}
           {props.Pro ? <Pro>Pro</Pro> : ''}
         </Title>
-        {!props.view ? (
-          <Folder className="bi bi-folder" darkmode={props.darkmode}>
-            <Input
-              type="file"
-              id="files"
-              name="files[]"
-              accept="json/*"
-              onChange={evt => handleFileSelect(evt, props.setBook)}
-            />
-          </Folder>
-        ) : (
-          ''
-        )}
         {props.book ? (
           <Book>{!props.view ? props.book.BookInfo.Title : 'Main Menu'}</Book>
         ) : (
@@ -78,25 +67,58 @@ export function NavBar(props) {
             className={props.saved ? 'bi bi-check2' : 'bi bi-arrow-repeat'}
             darkmode={props.darkmode}
             onClick={() => props.toggleSaved()}
-          />
-        ) : (
-          ''
-        )}
-      </Left>
-      <Left>
-        {!props.view ? (
-          <Folder
-            className="bi bi-folder-plus"
-            darkmode={props.darkmode}
-            onClick={() => createNewBook('My Book', props.setBook)}
           >
-            &nbsp; New Book
+            &nbsp;
+            {props.saved ? ' Up to date' : ' Commit changes'}
           </Folder>
         ) : (
           ''
         )}
+      </Left>
 
-        {<MenuBar onClick={() => props.toggleView()} className="bi bi-list" />}
+      <Left>
+        {!props.view && options ? (
+          <Save
+            className="bi bi-folder-plus"
+            darkmode={props.darkmode}
+            onClick={() => createNewBook('My Book', props.setBook)}
+          >
+            &nbsp; New
+          </Save>
+        ) : (
+          ''
+        )}
+        {!props.view && options ? (
+          <Save className="bi bi bi-arrow-bar-up" darkmode={props.darkmode}>
+            <Input
+              type="file"
+              id="files"
+              name="files[]"
+              accept="json/*"
+              onChange={evt => handleFileSelect(evt, props.setBook)}
+            />
+            &nbsp; Upload
+          </Save>
+        ) : (
+          ''
+        )}
+        {!props.view && options ? (
+          <Save
+            className="bi bi-arrow-bar-down"
+            darkmode={props.darkmode}
+            onClick={() => props.toggleSaved()}
+          >
+            &nbsp; Download
+          </Save>
+        ) : (
+          ''
+        )}
+
+        {/*
+          <MenuBar
+            onClick={() => toggleOptions()}
+            className="bi bi-three-dots"
+          />*/}
       </Left>
     </Nav>
   );
@@ -115,6 +137,11 @@ const Left = styled.div`
   display: flex;
   align-items: center;
 `;
+const Center = styled.div`
+  display: flex;
+  margin-left: 6em;
+  align-items: center;
+`;
 const Title = styled.div`
   margin: 0em 0.25em;
   padding: 0em;
@@ -126,7 +153,7 @@ const Book = styled.a`
   display: flex;
   margin: 0 0.5em;
   align-items: center;
-  padding-top: 0.25em;
+  //padding-top: 0.2em;
   font-size: 1em;
   color: rgb(140, 140, 140);
   &:hover {
@@ -137,7 +164,7 @@ const MenuBar = styled.a`
   font-size: 1.5em;
   weight: bolder;
   align-items: center;
-  padding: 0.25em;
+  padding: 0 0.25em;
   color: green;
   &:hover {
     color: white;
@@ -145,7 +172,8 @@ const MenuBar = styled.a`
 `;
 const Folder = styled.label`
   font-size: 1em;
-  padding-top: 0.25em;
+  //padding-top: 0.2em;
+  margin-left: 1em;
   color: rgb(140, 140, 140);
   &:hover {
     color: lightgrey;
@@ -154,7 +182,8 @@ const Folder = styled.label`
 const Save = styled.div`
   font-size: 1em;
   padding-top: 0em;
-  padding-right: 0.5em;
+  //padding-right: 0.5em;
+  margin-right: 1em;
   color: rgb(140, 140, 140);
   &:hover {
     color: lightgrey;
