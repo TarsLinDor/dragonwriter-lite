@@ -46,23 +46,14 @@ const ToolContianer = styled.div`
 `;
 
 function ToolArea(props) {
-  return props.Tabs.columnOrder.length - 1 ? (
+  const Tool1 = (props.Tabs.columns['column-1'].selected)&&(props.Tabs.columnOrder.length >1);
+  //props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content;
+  const Tool2 = props.Tabs.columns['column-2'].selected&&(props.Tabs.columnOrder.length >1)
+  //props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content;
+  return (
     <ToolContianer>
-      <Tool
-        {...props}
-        type={props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
-      />
-      <Tool
-        {...props}
-        type={props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content}
-      />
-    </ToolContianer>
-  ) : (
-    <ToolContianer>
-      <Tool
-        {...props}
-        type={props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
-      />
+      {Tool1 ? <Tool {...props} type={Tool1} /> : ''}
+      {Tool2 ? <Tool {...props} type={Tool2} /> : ''}
     </ToolContianer>
   );
 }
