@@ -27,7 +27,7 @@ export function WorkSpace(props) {
       <Toolbar {...props} />
       <Area {...props}>
         <TabBar {...props} />
-        <ToolArea {...props}>Test</ToolArea>
+        <ToolArea {...props} />
       </Area>
     </Workspace>
   );
@@ -40,7 +40,7 @@ const ToolContianer = styled.div`
   width: 100%;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
 `;
-const Tool = styled.div`
+const ToolItem = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
@@ -50,8 +50,8 @@ const Tool = styled.div`
       ? 'solid 1px rgb(60, 60, 60)'
       : 'solid 1px rgb(20, 20, 20,.15)'};
 `;
+
 function ToolArea(props) {
-  const selectedTab = props.Tabs.columns['column-1'].selected;
   const Tools =
     props.Tabs.columnOrder.length - 1 ? (
       <ToolContianer>
@@ -79,4 +79,8 @@ function ToolArea(props) {
       </ToolContianer>
     );
   return Tools;
+}
+
+function Tool(props) {
+  return <ToolItem {...props}>{props.type}</ToolItem>;
 }
