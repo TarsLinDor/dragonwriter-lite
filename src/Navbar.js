@@ -106,7 +106,7 @@ export function NavBar(props) {
           <Save
             className="bi bi-arrow-bar-down"
             darkmode={props.darkmode}
-            onClick={() => props.toggleSaved()}
+            //onClick={() => }
           >
             &nbsp; Download
           </Save>
