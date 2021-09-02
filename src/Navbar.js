@@ -57,6 +57,19 @@ export function NavBar(props) {
           {props.AppName}
           {props.Pro ? <Pro>Pro</Pro> : ''}
         </Title>
+        {!props.view && options ? (
+          <Folder className="bi bi-folder" darkmode={props.darkmode}>
+            <Input
+              type="file"
+              id="files"
+              name="files[]"
+              accept="json/*"
+              onChange={evt => handleFileSelect(evt, props.setBook)}
+            />
+          </Folder>
+        ) : (
+          ''
+        )}
         {props.book ? (
           <Book>{!props.view ? props.book.BookInfo.Title : 'Main Menu'}</Book>
         ) : (
@@ -69,7 +82,7 @@ export function NavBar(props) {
             onClick={() => props.toggleSaved()}
           >
             &nbsp;
-            {props.saved ? ' Up to date' : ' Commit changes'}
+            {props.saved ? ' Up to date' : ' Save'}
           </Folder>
         ) : (
           ''
@@ -77,7 +90,7 @@ export function NavBar(props) {
       </Left>
 
       <Left>
-        {!props.view && options ? (
+        {/*!props.view && options ? (
           <Save
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
@@ -87,38 +100,14 @@ export function NavBar(props) {
           </Save>
         ) : (
           ''
-        )}
-        {!props.view && options ? (
-          <Save className="bi bi bi-arrow-bar-up" darkmode={props.darkmode}>
-            <Input
-              type="file"
-              id="files"
-              name="files[]"
-              accept="json/*"
-              onChange={evt => handleFileSelect(evt, props.setBook)}
-            />
-            &nbsp; Upload
-          </Save>
-        ) : (
-          ''
-        )}
-        {!props.view && options ? (
-          <Save
-            className="bi bi-arrow-bar-down"
-            darkmode={props.darkmode}
-            //onClick={() => }
-          >
-            &nbsp; Download
-          </Save>
-        ) : (
-          ''
-        )}
+        )*/}
 
-        {/*
+        {
           <MenuBar
-            onClick={() => toggleOptions()}
+            onClick={() => props.toggleView()}
             className="bi bi-three-dots"
-          />*/}
+          />
+        }
       </Left>
     </Nav>
   );
@@ -153,7 +142,7 @@ const Book = styled.a`
   display: flex;
   margin: 0 0.5em;
   align-items: center;
-  //padding-top: 0.2em;
+  padding-top: 0.25em;
   font-size: 1em;
   color: rgb(140, 140, 140);
   &:hover {
@@ -172,8 +161,8 @@ const MenuBar = styled.a`
 `;
 const Folder = styled.label`
   font-size: 1em;
-  //padding-top: 0.2em;
-  margin-left: 1em;
+  padding-top: 0.25em;
+  margin-left: 0em;
   color: rgb(140, 140, 140);
   &:hover {
     color: lightgrey;
