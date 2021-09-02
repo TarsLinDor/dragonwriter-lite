@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 const { Toolbar } = require('./WorkSpace/Toolbar.js');
 const { TabBar } = require('./WorkSpace/TabBar.js');
+const { Tool } = require('./WorkSpace/Tools.js');
+
 const Workspace = styled.div`
   background-color: ${props =>
     props.darkmode ? 'rgb(30, 30, 30)' : 'whitesmoke'}; //#40526d
@@ -33,6 +35,8 @@ export function WorkSpace(props) {
   );
 }
 const ToolContianer = styled.div`
+  font-family: Alegreya; //NOTE: this should be changeable in settings.
+  font-size: 16px; //NOTE: this should be changeable in settings.
   display: flex;
   flex-direction: row;
   //background-color: red;
@@ -40,47 +44,25 @@ const ToolContianer = styled.div`
   width: 100%;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
 `;
-const ToolItem = styled.div`
-  flex-direction: column;
-  flex-grow: 1;
-  width: 100%;
-  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
-  border-right: ${props =>
-    props.darkmode
-      ? 'solid 1px rgb(60, 60, 60)'
-      : 'solid 1px rgb(20, 20, 20,.15)'};
-`;
 
 function ToolArea(props) {
-  const Tools =
-    props.Tabs.columnOrder.length - 1 ? (
-      <ToolContianer>
-        <Tool
-          {...props}
-          type={
-            props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
-          }
-        />
-        <Tool
-          {...props}
-          type={
-            props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content
-          }
-        />
-      </ToolContianer>
-    ) : (
-      <ToolContianer>
-        <Tool
-          {...props}
-          type={
-            props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
-          }
-        />
-      </ToolContianer>
-    );
-  return Tools;
-}
-
-function Tool(props) {
-  return <ToolItem {...props}>{props.type}</ToolItem>;
+  return props.Tabs.columnOrder.length - 1 ? (
+    <ToolContianer>
+      <Tool
+        {...props}
+        type={props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
+      />
+      <Tool
+        {...props}
+        type={props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content}
+      />
+    </ToolContianer>
+  ) : (
+    <ToolContianer>
+      <Tool
+        {...props}
+        type={props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
+      />
+    </ToolContianer>
+  );
 }
