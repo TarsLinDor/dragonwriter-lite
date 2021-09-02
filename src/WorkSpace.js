@@ -45,7 +45,10 @@ const Tool = styled.div`
   flex-grow: 1;
   width: 100%;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
-  border-right: ${props => (props.darkmode ? 'solid 1px rgb(60, 60, 60)' : '')};
+  border-right: ${props =>
+    props.darkmode
+      ? 'solid 1px rgb(60, 60, 60)'
+      : 'solid 1px rgb(200, 200, 200)'};
 `;
 function ToolArea(props) {
   const selectedTab = props.Tabs.columns['column-1'].selected;
