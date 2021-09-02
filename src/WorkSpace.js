@@ -48,7 +48,7 @@ const Tool = styled.div`
   border-right: ${props =>
     props.darkmode
       ? 'solid 1px rgb(60, 60, 60)'
-      : 'solid 1px rgb(200, 200, 200)'};
+      : 'solid 1px rgb(20, 20, 20,.15)'};
 `;
 function ToolArea(props) {
   const selectedTab = props.Tabs.columns['column-1'].selected;

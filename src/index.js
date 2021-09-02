@@ -49,7 +49,7 @@ function App() {
       : require('./newBook.json')
   );
   const [Tabs, setTabs] = useState(
-    localStorage.abs ? JSON.parse(localStorage.tabs) : initialData
+    localStorage.tabs ? JSON.parse(localStorage.tabs) : initialData
   );
   const [saved, toggleSaved] = useToggle(
     JSON.stringify(book) == localStorage.book
