@@ -55,18 +55,27 @@ function ToolArea(props) {
   const Tools =
     props.Tabs.columnOrder.length - 1 ? (
       <ToolContianer>
-        <Tool {...props}>
-          {props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
-        </Tool>
-        <Tool {...props}>
-          {props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content}
-        </Tool>
+        <Tool
+          {...props}
+          type={
+            props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
+          }
+        />
+        <Tool
+          {...props}
+          type={
+            props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content
+          }
+        />
       </ToolContianer>
     ) : (
       <ToolContianer>
-        <Tool {...props}>
-          {props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content}
-        </Tool>
+        <Tool
+          {...props}
+          type={
+            props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
+          }
+        />
       </ToolContianer>
     );
   return Tools;
