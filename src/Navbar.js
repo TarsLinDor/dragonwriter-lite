@@ -97,7 +97,7 @@ export function NavBar(props) {
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
             onClick={() => createNewBook('My Book', props.setBook)}
-            tooltip={'New Book'}
+            tooltip={' New Book'}
           />
         ) : (
           ''
@@ -170,12 +170,9 @@ const Folder = styled.label`
   padding-top: 0.25em;
   margin-left: 0em;
   color: rgb(140, 140, 140);
+  transition: content 2s linear 1s;
   &:hover {
     color: lightgrey;
-  }
-  &:hover:after {
-    padding: .1em;
-    content: '  ${props => props.tooltip}';
   }
 `;
 const Save = styled.div`
@@ -185,6 +182,7 @@ const Save = styled.div`
   padding-right: 0.5em;
   margin-right: 1em;
   color: rgb(140, 140, 140);
+  transition: content 2s;
   &:hover {
     color: lightgrey;
   }
