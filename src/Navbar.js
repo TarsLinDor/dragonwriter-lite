@@ -58,7 +58,11 @@ export function NavBar(props) {
           {props.Pro ? <Pro>Pro</Pro> : ''}
         </Title>
         {!props.view && options ? (
-          <Folder className="bi bi-folder" darkmode={props.darkmode}>
+          <Folder
+            className="bi bi-folder"
+            darkmode={props.darkmode}
+            tooltip={'Upload Book '}
+          >
             <Input
               type="file"
               id="files"
@@ -76,39 +80,35 @@ export function NavBar(props) {
           <Book>{!props.view ? 'No Book Selected' : 'Main Menu'}</Book>
         )}
         {!props.view ? (
-          <Folder
+          <Save
             className={props.saved ? 'bi bi-check2' : 'bi bi-arrow-repeat'}
             darkmode={props.darkmode}
             onClick={() => props.toggleSaved()}
-          >
-            &nbsp;
-            {props.saved ? ' Up to date' : ' Save'}
-          </Folder>
+            tooltip={props.saved ? ' Up to date' : ' Save'}
+          />
         ) : (
           ''
         )}
       </Left>
 
-      <Left>
-        {/*!props.view && options ? (
-          <Save
+      <Right>
+        {!props.view && options ? (
+          <Folder
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
             onClick={() => createNewBook('My Book', props.setBook)}
-          >
-            &nbsp; New
-          </Save>
+            tooltip={'New Book'}
+          />
         ) : (
           ''
-        )*/}
+        )}
 
-        {
+        {/*
           <MenuBar
             onClick={() => props.toggleView()}
             className="bi bi-three-dots"
-          />
-        }
-      </Left>
+          />*/}
+      </Right>
     </Nav>
   );
 }
@@ -126,6 +126,11 @@ const Left = styled.div`
   display: flex;
   align-items: center;
 `;
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 0.5em;
+`;
 const Center = styled.div`
   display: flex;
   margin-left: 6em;
@@ -140,10 +145,11 @@ const Title = styled.div`
 `;
 const Book = styled.a`
   display: flex;
+  //font-weight: bold;
   margin: 0 0.5em;
   align-items: center;
-  padding-top: 0.25em;
-  font-size: 1em;
+  padding-top: 0.2em;
+  font-size: 1.05em;
   color: rgb(140, 140, 140);
   &:hover {
     color: lightgrey;
@@ -167,15 +173,24 @@ const Folder = styled.label`
   &:hover {
     color: lightgrey;
   }
+  &:hover:after {
+    padding: .1em;
+    content: '  ${props => props.tooltip}';
+  }
 `;
 const Save = styled.div`
   font-size: 1em;
-  padding-top: 0em;
-  //padding-right: 0.5em;
+  font-weight: lighter;
+  padding-top: 0.2em;
+  padding-right: 0.5em;
   margin-right: 1em;
   color: rgb(140, 140, 140);
   &:hover {
     color: lightgrey;
+  }
+  &:hover:after {
+    padding: .1em;
+    content: ' ${props => props.tooltip}';
   }
 `;
 const Pro = styled.div`
