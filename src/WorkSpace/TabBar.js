@@ -19,7 +19,7 @@ const Split = styled.i`
   height: 1em;
   padding: 0.5em;
   z-index: 2;
-  background-color: ${props => (props.darkmode ? 'rgb(50, 50, 50)':'')};
+  background-color: ${props => (props.darkmode ? 'rgb(50, 50, 50)' : '')};
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   &:hover {
     color: rgb(200, 200, 200);
@@ -285,6 +285,7 @@ const Button = styled.button`
 const Text = styled.div`
   display: flex;
   align-items: center;
+  margin: 0.15em;
 `;
 
 function Tab(props) {
@@ -346,10 +347,12 @@ function Tab(props) {
           {
             <Handle
               {...provided.dragHandleProps}
-              className={setIcon(props.tab.content)}
+              className={setIcon(props.tab.type)}
             />
           }
-          <Text>{props.tab.content}</Text>
+          <Text>
+            {props.tab.location ? props.tab.location : props.tab.type}
+          </Text>
           <Button
             className="bi bi-x"
             darkmode={props.darkmode}

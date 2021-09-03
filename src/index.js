@@ -10,8 +10,8 @@ const { NavBar } = require('./Navbar.js');
 
 const initialData = {
   tabs: {
-    'tab-1': { id: 'tab-1', content: 'BookInfo' },
-    'tab-2': { id: 'tab-2', content: 'Editor' }
+    'tab-1': { id: 'tab-1', type: 'BookInfo' },
+    'tab-2': { id: 'tab-2', type: 'Editor', location: 'Chapter 1' }
   },
   columns: {
     'column-1': {
@@ -30,7 +30,6 @@ const initialData = {
 };
 
 const AppSpace = styled.div`
-  
   display: flex;
   flex-direction: column;
   position: absolute;
