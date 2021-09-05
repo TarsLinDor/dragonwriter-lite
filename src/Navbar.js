@@ -166,7 +166,7 @@ const MenuBar = styled.a`
   }
 `;
 const Folder = styled.label`
-  font-size: 1em;
+  font-size: 1.1em;
   padding-top: 0.25em;
   margin-left: 0em;
   color: rgb(140, 140, 140);
@@ -176,7 +176,7 @@ const Folder = styled.label`
   }
 `;
 const Save = styled.div`
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: lighter;
   padding-top: 0.2em;
   padding-right: 0.5em;
