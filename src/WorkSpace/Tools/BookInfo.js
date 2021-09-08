@@ -12,12 +12,15 @@ const ToolItem = styled.div`
       ? 'solid 1px rgb(60, 60, 60)'
       : 'solid 1px rgb(20, 20, 20,.15)'};
 `;
+const TagItem = styled.div`
+  border: 1px grey;
+`;
 
 export default function BookInfo(props) {
   const edit = props.book.BookInfo;
   return (
     <ToolItem {...props}>
-      Title: {edit.Title}
+      <h1>Title: {edit.Title}</h1>
       <br />
       Author: {edit.Authors}
       <br />
@@ -25,9 +28,9 @@ export default function BookInfo(props) {
       <br />
       Synopsis: {edit.Synopsis}
       <br />
-      Tags:{' '}
+      Tags:
       {edit.Tags.map(tag => {
-        return tag;
+        return <TagItem>{tag}</TagItem>;
       })}
     </ToolItem>
   );
