@@ -14,8 +14,7 @@ const initialData = {
     'tab-2': {
       id: 'tab-2',
       type: 'Editor',
-      location: 'Chapter 1',
-      content: ' link to location'
+      location: 'Chapter 1'
     }
   },
   columns: {

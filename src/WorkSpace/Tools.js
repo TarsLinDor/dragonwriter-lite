@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import BookInfo from './Tools/BookInfo.js';
 
 const ToolItem = styled.div`
   flex-direction: column;
@@ -13,5 +14,12 @@ const ToolItem = styled.div`
 `;
 
 export function Tool(props) {
-  return <ToolItem {...props}>{props.type}</ToolItem>;
+  switch (props.type) {
+    case 'BookInfo':
+      return <ToolItem {...props}>{props.type}</ToolItem>;
+    case 'Editor':
+      <ToolItem {...props}>{props.location}</ToolItem>;
+    default:
+      return <ToolItem {...props}>Default</ToolItem>;
+  }
 }
