@@ -14,11 +14,11 @@ const ToolItem = styled.div`
 `;
 
 export function Tool(props) {
-  switch (props.type) {
-    case 'BookInfo':
-      return <ToolItem {...props}>{props.type}</ToolItem>;
+  switch (props.Type) {
     case 'Editor':
-      <ToolItem {...props}>{props.location}</ToolItem>;
+      <ToolItem {...props}>Editor test</ToolItem>;
+    case 'BookInfo':
+      return <BookInfo {...props}>{props.type}</BookInfo>;
     default:
       return <ToolItem {...props}>Default</ToolItem>;
   }

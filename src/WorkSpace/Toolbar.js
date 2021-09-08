@@ -10,7 +10,7 @@ export function Toolbar(props) {
     };
     const newId = 'tab-' + randomHex(3);
     newState.tabs = Object.assign(newState.tabs, {
-      [newId]: { id: newId, content: e }
+      [newId]: { id: newId, type: e }
     });
     newState.columns[
       Object.keys(newState.columns)[newState.columnOrder.length - 1]

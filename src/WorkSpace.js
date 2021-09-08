@@ -56,8 +56,8 @@ function ToolArea(props) {
     props.Tabs.tabs[props.Tabs.columns['column-2'].selected].location;
   return (
     <ToolContianer>
-      {Tool1 ? <Tool {...props} type={type1} location={loc1} /> : ''}
-      {Tool2 ? <Tool {...props} type={type2} location={loc2} /> : ''}
+      {Tool1 ? <Tool {...props} Type={type1} location={loc1} /> : ''}
+      {Tool2 ? <Tool {...props} Type={'Editor'} location={loc2} /> : ''}
     </ToolContianer>
   );
 }
