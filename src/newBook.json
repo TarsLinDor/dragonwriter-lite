@@ -1,7 +1,7 @@
 {
   "BookInfo":{
     "Title":"My Book Title",
-    "Authors":[],
+    "Authors":["Your Name"],
     "Genre":"Fantasy",
     "Audience":"Adult",
     "Length":0,

@@ -6,6 +6,7 @@ const ToolItem = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
+  
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   border-right: ${props =>
     props.darkmode
@@ -16,7 +17,7 @@ const ToolItem = styled.div`
 export function Tool(props) {
   switch (props.Type) {
     case 'Editor':
-      <ToolItem {...props}>Editor test</ToolItem>;
+      return <ToolItem {...props}>Editor test</ToolItem>;
     case 'BookInfo':
       return <BookInfo {...props}>{props.type}</BookInfo>;
     default:

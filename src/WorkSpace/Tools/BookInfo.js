@@ -25,9 +25,16 @@ export default function BookInfo(props) {
     <ToolItem {...props}>
       <h1>Title: {edit.Title}</h1>
       <br />
-      Author: {edit.Authors}
+      {edit.Authors > 1
+        ? 'Author:' +
+          edit.Authors.map(name => {
+            return name + ',';
+          })
+        : 'Authors:' + edit.Authors}
       <br />
       Genre: {edit.Genre}
+      <br />
+      Audience: {edit.Audience}
       <br />
       Tags:
       {edit.Tags
