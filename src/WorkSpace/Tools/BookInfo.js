@@ -23,6 +23,12 @@ export default function BookInfo(props) {
       <br />
       Genre: {edit.Genre}
       <br />
+      Synopsis: {edit.Synopsis}
+      <br />
+      Tags:{' '}
+      {edit.Tags.map(tag => {
+        return tag;
+      })}
     </ToolItem>
   );
 }

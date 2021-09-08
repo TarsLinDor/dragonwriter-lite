@@ -4,10 +4,10 @@
     "Authors":[],
     "Genre":"Fantasy",
     "Audience":"Adult",
-    "Length":"",
+    "Length":0,
     "ExpectedLength":"60K",
-    "Tags":["Hard Magic"],
-    "Synopsis": "",
+    "Tags":["Hard Magic", "GrimDark"],
+    "Synopsis": "Write a Synopsis",
     "CreatedAt":""
   },
   "Editor":{},
