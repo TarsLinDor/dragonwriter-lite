@@ -12,8 +12,11 @@ const ToolItem = styled.div`
       ? 'solid 1px rgb(60, 60, 60)'
       : 'solid 1px rgb(20, 20, 20,.15)'};
 `;
-const TagItem = styled.div`
-  border: 1px grey;
+const TagItem = styled.i`
+  border-radius: 0.25em;
+  margin: 0.25em;
+  padding: 0 0.25em;
+  border: solid 1px grey;
 `;
 
 export default function BookInfo(props) {
@@ -26,12 +29,15 @@ export default function BookInfo(props) {
       <br />
       Genre: {edit.Genre}
       <br />
+      Tags:
+      {edit.Tags
+        ? edit.Tags.map(tag => {
+            return <TagItem>{tag}</TagItem>;
+          })
+        : ''}
+      <br />
       Synopsis: {edit.Synopsis}
       <br />
-      Tags:
-      {edit.Tags.map(tag => {
-        return <TagItem>{tag}</TagItem>;
-      })}
     </ToolItem>
   );
 }
