@@ -48,11 +48,10 @@ const ToolContianer = styled.div`
 function ToolArea(props) {
   const Tool1 = props.Tabs.columnOrder.length > 0;
   const type1 = props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
-    ? props.Tabs.tabs[props.Tabs.columns['column-1'].selected].content
+    ? props.Tabs.tabs[props.Tabs.columns['column-1'].selected].type
     : '';
   const Tool2 = props.Tabs.columnOrder.length > 1;
-  const type2 =
-    props.Tabs.tabs[props.Tabs.columns['column-2'].selected].content;
+  const type2 = props.Tabs.tabs[props.Tabs.columns['column-2'].selected].type;
   return (
     <ToolContianer>
       {Tool1 ? <Tool {...props} type={type1} /> : ''}

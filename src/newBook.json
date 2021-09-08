@@ -2,11 +2,11 @@
   "BookInfo":{
     "Title":"My Book Title",
     "Authors":[],
-    "Genre":"",
-    "Audience":"",
+    "Genre":"Fantasy",
+    "Audience":"Adult",
     "Length":"",
-    "ExpectedLength":"",
-    "Tags":[],
+    "ExpectedLength":"60K",
+    "Tags":["Hard Magic"],
     "CreatedAt":""
   },
   "Editor":{},
