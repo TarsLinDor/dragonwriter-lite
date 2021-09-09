@@ -97,8 +97,10 @@ export function NavBar(props) {
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
             onClick={() => createNewBook('My Book', props.setBook)}
-            tooltip={' New Book'}
-          />
+            tooltip={' New Project'}
+          >
+            &nbsp;New Project
+          </Folder>
         ) : (
           ''
         )}
@@ -165,14 +167,14 @@ const MenuBar = styled.a`
     color: white;
   }
 `;
-const Folder = styled.label`
-  font-size: 1.1em;
+const Folder = styled.a`
+  font-size: 1em;
   padding-top: 0.25em;
   margin-left: 0em;
   color: rgb(140, 140, 140);
   transition: content 2s linear 1s;
   &:hover {
-    color: lightgrey;
+    color: linkblue;
   }
 `;
 const Save = styled.div`

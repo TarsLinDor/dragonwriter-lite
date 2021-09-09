@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const ToolItem = styled.div`
   flex-direction: column;
   flex-grow: 1;
+
   width: 100%;
   padding: 1em;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
@@ -18,32 +19,62 @@ const TagItem = styled.i`
   padding: 0 0.25em;
   border: solid 1px grey;
 `;
+const Title = styled.input`
+  background-color: inherit;
+  font-size: 32px;
+  font-family: Alegreya;
+  text-align: center;
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+  outline: none;
+  border: none;
+  &:after {
+    content: ' 🦄';
+  }
+`;
 
 export default function BookInfo(props) {
-  const edit = props.book.BookInfo;
+  var NewBook = {
+    ...props.book
+  };
+  const BookInfo = NewBook.BookInfo;
+  const [title, setTitle] = useState(NewBook.BookInfo.Title);
+  function updateFields(e) {
+    setTitle(e.target.value);
+    NewBook.BookInfo.title = e.target.value;
+  }
+  function UpdateBook(e) {
+    props.setBook(NewBook);
+    console.log(NewBook.BookInfo.title);
+  }
   return (
     <ToolItem {...props}>
-      <h1>Title: {edit.Title}</h1>
+      <Title
+        type="text"
+        value={title}
+        {...props}
+        onChange={e => updateFields(e)}
+        onBlur={e => UpdateBook(e)}
+      />
       <br />
-      {edit.Authors > 1
+      {BookInfo.Authors > 1
         ? 'Author:' +
-          edit.Authors.map(name => {
+          BookInfo.Authors.map(name => {
             return name + ',';
           })
-        : 'Authors:' + edit.Authors}
+        : 'Authors:' + BookInfo.Authors}
       <br />
-      Genre: {edit.Genre}
+      Genre: {BookInfo.Genre}
       <br />
-      Audience: {edit.Audience}
+      Audience: {BookInfo.Audience}
       <br />
       Tags:
-      {edit.Tags
-        ? edit.Tags.map(tag => {
+      {BookInfo.Tags
+        ? BookInfo.Tags.map(tag => {
             return <TagItem>{tag}</TagItem>;
           })
         : ''}
       <br />
-      Synopsis: {edit.Synopsis}
+      Synopsis: {BookInfo.Synopsis}
       <br />
     </ToolItem>
   );

@@ -39,7 +39,6 @@ const ToolContianer = styled.div`
   font-size: 16px; //NOTE: this should be changeable in settings.
   display: flex;
   flex-direction: row;
-  //background-color: red;
   flex-grow: 1;
   width: 100%;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
