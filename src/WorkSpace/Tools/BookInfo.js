@@ -23,35 +23,32 @@ const Title = styled.input`
   background-color: inherit;
   font-size: 32px;
   font-family: Alegreya;
-  text-align: center;
+  //text-align: center;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   outline: none;
   border: none;
 `;
 
 export default function BookInfo(props) {
-  var NewBook = {
-    ...props.book
-  };
-  const BookInfo = NewBook.BookInfo;
-  const [title, setTitle] = useState(NewBook.BookInfo.Title);
+  const BookInfo = props.book.BookInfo;
+  const [title, setTitle] = useState(BookInfo.Title);
   function updateFields(e) {
-    if (e.key != 'Enter') {
-      setTitle(e.target.value);
-      NewBook.BookInfo.Title = e.target.value;
-    } else {
-      UpdateBook(e);
-    }
+    setTitle(e.target.value);
   }
   function UpdateBook(e) {
+    var NewBook = {
+      ...props.book
+    };
+    NewBook.BookInfo.Title = e.target.value;
     props.setBook(NewBook);
+    localStorage.book = JSON.stringify(NewBook);
     console.log(props.book);
   }
+
   return (
     <ToolItem {...props}>
-      <Title
+      <h1>Title:</h1> <Title
         placeholder="Book Title"
-        multiline={true}
         type="text"
         value={title}
         {...props}
@@ -59,8 +56,7 @@ export default function BookInfo(props) {
         onBlur={e => UpdateBook(e)}
         onKeyDown={e => {
           if (e.key == 'Enter') {
-            UpdateBook(e);
-            blur(e);
+            e.target.blur();
           }
         }}
       />

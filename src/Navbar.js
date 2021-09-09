@@ -3,53 +3,41 @@ import styled from 'styled-components';
 const download = require('downloadjs');
 const { useToggle } = require('./UI-Functions/Toggle-UI.js');
 
-function SaveBook_internally(book, setBook) {
-  setBook(book);
-  localStorage.book = JSON.stringify(book);
-}
-
-function SaveBook_locally(book, setBook) {
-  setBook(book);
-  localStorage.book = JSON.stringify(book);
-  download(JSON.stringify(book), book.BookInfo.Title + '.json', 'json');
-}
-
-function createNewBook(Title, setBook) {
-  const newBook = require('./newBook.json');
-  newBook.BookInfo.Title = Title;
-  setBook(newBook);
-  download(JSON.stringify(newBook), Title + '.json', 'json');
-  localStorage.book = JSON.stringify(newBook);
-}
-
-function handleFileSelect(event, setBook) {
-  var book;
-  var files = event.target.files; // FileList object
-
-  // files is a FileList of File objects. List some properties.
-  var output = [];
-  for (var i = 0, f; (f = files[i]); i++) {
-    var reader = new FileReader();
-
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-      return function(e) {
-        try {
-          book = JSON.parse(e.target.result);
-          setBook(book);
-          localStorage.book = JSON.stringify(book);
-          console.log(book.BookInfo.Title + '\nLoaded Successfully!');
-        } catch (ex) {
-          alert('Failed To load File' + ex);
-        }
-      };
-    })(f);
-    reader.readAsText(f);
-  }
-}
-
 export function NavBar(props) {
-  const [options, toggleOptions] = useToggle(1);
+  function handleFileSelect(event, setBook) {
+    var book;
+    var files = event.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; (f = files[i]); i++) {
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          try {
+            book = JSON.parse(e.target.result);
+            setBook(book);
+            localStorage.book = JSON.stringify(book);
+            console.log(book.BookInfo.Title + '\nLoaded Successfully!');
+          } catch (ex) {
+            alert('Failed To load File' + ex);
+          }
+        };
+      })(f);
+      reader.readAsText(f);
+    }
+  }
+
+  function createNewBook(e) {
+    const newBook = require('./newBook.json');
+    newBook.BookInfo.CreatedAt = Date.now();
+    props.setBook(newBook);
+    //download(JSON.stringify(newBook), Title + '.json', 'json');
+    localStorage.book = JSON.stringify(newBook);
+    console.log(newBook);
+  }
   return (
     <Nav darkmode={props.darkmode}>
       <Left>
@@ -57,7 +45,7 @@ export function NavBar(props) {
           {props.AppName}
           {props.Pro ? <Pro>Pro</Pro> : ''}
         </Title>
-        {!props.view && options ? (
+        {!props.view ? (
           <Folder
             className="bi bi-folder"
             darkmode={props.darkmode}
@@ -92,11 +80,11 @@ export function NavBar(props) {
       </Left>
 
       <Right>
-        {!props.view && options ? (
+        {!props.view ? (
           <Folder
             className="bi bi-folder-plus"
             darkmode={props.darkmode}
-            onClick={() => createNewBook('My Book', props.setBook)}
+            onClick={e => createNewBook(e)}
             tooltip={' New Project'}
           >
             &nbsp;New Project
@@ -133,11 +121,6 @@ const Right = styled.div`
   align-items: center;
   padding: 0 0.5em;
 `;
-const Center = styled.div`
-  display: flex;
-  margin-left: 6em;
-  align-items: center;
-`;
 const Title = styled.div`
   margin: 0em 0.25em;
   padding: 0em;
@@ -167,14 +150,14 @@ const MenuBar = styled.a`
     color: white;
   }
 `;
-const Folder = styled.a`
+const Folder = styled.div`
   font-size: 1em;
   padding-top: 0.25em;
   margin-left: 0em;
   color: rgb(140, 140, 140);
   transition: content 2s linear 1s;
   &:hover {
-    color: linkblue;
+    color: blue;
   }
 `;
 const Save = styled.div`

@@ -1,11 +1,11 @@
 {
   "BookInfo":{
-    "Title":"My Book Title",
-    "Authors":["Your Name"],
+    "Title":"Book Title",
+    "Authors":["Author Name"],
     "Genre":"Fantasy",
     "Audience":"Adult",
-    "Length":0,
-    "ExpectedLength":"60K",
+    "WordCount":0,
+    "ExpectedWordCount":"60K",
     "Tags":["Hard Magic", "GrimDark"],
     "Synopsis": "Write a Synopsis",
     "CreatedAt":""

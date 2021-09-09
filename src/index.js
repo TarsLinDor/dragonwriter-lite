@@ -21,16 +21,16 @@ const initialData = {
     'column-1': {
       id: 'column-1',
       selected: 'tab-1',
-      tabIds: ['tab-1']
+      tabIds: ['tab-1', 'tab-2']
     },
     'column-2': {
       id: 'column-2',
       selected: 'tab-2',
-      tabIds: ['tab-2']
+      tabIds: ['']
     }
   },
   // Facilitate reordering of the columns
-  columnOrder: ['column-1', 'column-2']
+  columnOrder: ['column-1']
 };
 
 const AppSpace = styled.div`
