@@ -13,7 +13,7 @@ const ToolItem = styled.div`
       ? 'solid 1px rgb(60, 60, 60)'
       : 'solid 1px rgb(20, 20, 20,.15)'};
 `;
-const TagItem = styled.i`
+const TagItem = styled.span`
   border-radius: 0.25em;
   font-size: 0.85em;
   margin: 0.25em;
@@ -60,7 +60,7 @@ export default function BookInfo(props) {
         value={title}
         {...props}
         onChange={e => setTitle(e.target.value)}
-        onBlur={UpdateBook}
+        onBlur={() => UpdateBook()}
         onKeyDown={e => {
           if (e.key == 'Enter') {
             e.target.blur();
@@ -75,7 +75,7 @@ export default function BookInfo(props) {
           })
         : 'Author: ' + Authors}
       <br />
-      Genre:
+      Genre:{' '}
       <Input
         placeholder="Genre"
         type="text"
@@ -83,7 +83,7 @@ export default function BookInfo(props) {
         value={Genre}
         {...props}
         onChange={e => setGenre(e.target.value)}
-        onBlur={e => UpdateBook(e)}
+        onBlur={() => UpdateBook()}
         onKeyDown={e => {
           if (e.key == 'Enter') {
             e.target.blur();
@@ -93,13 +93,13 @@ export default function BookInfo(props) {
       <br />
       Audience: {Audience}
       <br />
-      Tags:
-      <br />
+      Tags: <br />
       {Tags
         ? Tags.map(tag => {
             return <TagItem>{tag}</TagItem>;
           })
         : ''}
+      <a className="bi bi-plus-circle" />
       <br />
       Synopsis: <br />
       {Synopsis}

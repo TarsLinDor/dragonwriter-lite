@@ -30,9 +30,9 @@ export function NavBar(props) {
     }
   }
 
-  function createNewBook(e) {
+  function createNewBook() {
     const newBook = require('./newBook.json');
-    newBook.BookInfo.CreatedAt = Date.now();
+    newBook.BookInfo.CreatedAt = Date();
     props.setBook(newBook);
     //download(JSON.stringify(newBook), Title + '.json', 'json');
     localStorage.book = JSON.stringify(newBook);
