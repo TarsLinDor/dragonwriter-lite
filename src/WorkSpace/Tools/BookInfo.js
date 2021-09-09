@@ -27,9 +27,6 @@ const Title = styled.input`
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
   outline: none;
   border: none;
-  &:after {
-    content: ' 🦄';
-  }
 `;
 
 export default function BookInfo(props) {
@@ -39,23 +36,34 @@ export default function BookInfo(props) {
   const BookInfo = NewBook.BookInfo;
   const [title, setTitle] = useState(NewBook.BookInfo.Title);
   function updateFields(e) {
-    setTitle(e.target.value);
-    NewBook.BookInfo.title = e.target.value;
+    if (e.key != 'Enter') {
+      setTitle(e.target.value);
+      NewBook.BookInfo.Title = e.target.value;
+    } else {
+      UpdateBook(e);
+    }
   }
   function UpdateBook(e) {
     props.setBook(NewBook);
-    console.log(NewBook.BookInfo.title);
+    console.log(props.book);
   }
   return (
     <ToolItem {...props}>
       <Title
+        placeholder="Book Title"
+        multiline={true}
         type="text"
         value={title}
         {...props}
         onChange={e => updateFields(e)}
         onBlur={e => UpdateBook(e)}
+        onKeyDown={e => {
+          if (e.key == 'Enter') {
+            UpdateBook(e);
+            blur(e);
+          }
+        }}
       />
-      <br />
       {BookInfo.Authors > 1
         ? 'Author:' +
           BookInfo.Authors.map(name => {
