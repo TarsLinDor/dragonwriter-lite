@@ -15,13 +15,15 @@ const ToolItem = styled.div`
 `;
 const TagItem = styled.i`
   border-radius: 0.25em;
+  font-size: 0.85em;
   margin: 0.25em;
   padding: 0 0.25em;
   border: solid 1px grey;
+  background-color: rgb(100, 100, 100, 0.25);
 `;
-const Title = styled.input`
+const Input = styled.input`
   background-color: inherit;
-  font-size: 32px;
+  font-size: ${props => props.fontsize};
   font-family: Alegreya;
   //text-align: center;
   color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
@@ -37,8 +39,12 @@ export default function BookInfo(props) {
   const [Authors, setAuthors] = useState(Editable.BookInfo.Authors);
   const [Genre, setGenre] = useState(Editable.BookInfo.Genre);
   const [Audience, setAudience] = useState(Editable.BookInfo.Audience);
-  function UpdateBook(e) {
-    Editable.BookInfo.Title = e.target.value;
+  const [Tags, setTags] = useState(Editable.BookInfo.Tags);
+  const [Synopsis, setSynopsis] = useState(Editable.BookInfo.Synopsis);
+
+  function UpdateBook() {
+    Editable.BookInfo.Title = title;
+    Editable.BookInfo.Genre = Genre;
     props.setBook(Editable);
     localStorage.book = JSON.stringify(Editable);
     console.log(props.book);
@@ -47,20 +53,21 @@ export default function BookInfo(props) {
   return (
     <ToolItem {...props}>
       <p>Title:</p>{' '}
-      <Title
+      <Input
         placeholder="Book Title"
         type="text"
+        fontsize="32px"
         value={title}
         {...props}
         onChange={e => setTitle(e.target.value)}
-        onBlur={e => UpdateBook(e)}
+        onBlur={UpdateBook}
         onKeyDown={e => {
-          console.log(e.key);
           if (e.key == 'Enter') {
             e.target.blur();
           }
         }}
       />
+      <br />
       {Authors.length > 1
         ? 'Authors:' +
           Authors.map(name => {
@@ -68,18 +75,34 @@ export default function BookInfo(props) {
           })
         : 'Author: ' + Authors}
       <br />
-      Genre: {Genre}
+      Genre:
+      <Input
+        placeholder="Genre"
+        type="text"
+        fontsize="16px"
+        value={Genre}
+        {...props}
+        onChange={e => setGenre(e.target.value)}
+        onBlur={e => UpdateBook(e)}
+        onKeyDown={e => {
+          if (e.key == 'Enter') {
+            e.target.blur();
+          }
+        }}
+      />
       <br />
       Audience: {Audience}
       <br />
       Tags:
-      {BookInfo.Tags
-        ? BookInfo.Tags.map(tag => {
+      <br />
+      {Tags
+        ? Tags.map(tag => {
             return <TagItem>{tag}</TagItem>;
           })
         : ''}
       <br />
-      Synopsis: {BookInfo.Synopsis}
+      Synopsis: <br />
+      {Synopsis}
       <br />
     </ToolItem>
   );
