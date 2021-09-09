@@ -30,46 +30,47 @@ const Title = styled.input`
 `;
 
 export default function BookInfo(props) {
-  const BookInfo = props.book.BookInfo;
-  const [title, setTitle] = useState(BookInfo.Title);
-  function updateFields(e) {
-    setTitle(e.target.value);
-  }
+  var Editable = {
+    ...props.book
+  };
+  const [title, setTitle] = useState(Editable.BookInfo.Title);
+  const [Authors, setAuthors] = useState(Editable.BookInfo.Authors);
+  const [Genre, setGenre] = useState(Editable.BookInfo.Genre);
+  const [Audience, setAudience] = useState(Editable.BookInfo.Audience);
   function UpdateBook(e) {
-    var NewBook = {
-      ...props.book
-    };
-    NewBook.BookInfo.Title = e.target.value;
-    props.setBook(NewBook);
-    localStorage.book = JSON.stringify(NewBook);
+    Editable.BookInfo.Title = e.target.value;
+    props.setBook(Editable);
+    localStorage.book = JSON.stringify(Editable);
     console.log(props.book);
   }
 
   return (
     <ToolItem {...props}>
-      <h1>Title:</h1> <Title
+      <p>Title:</p>{' '}
+      <Title
         placeholder="Book Title"
         type="text"
         value={title}
         {...props}
-        onChange={e => updateFields(e)}
+        onChange={e => setTitle(e.target.value)}
         onBlur={e => UpdateBook(e)}
         onKeyDown={e => {
+          console.log(e.key);
           if (e.key == 'Enter') {
             e.target.blur();
           }
         }}
       />
-      {BookInfo.Authors > 1
-        ? 'Author:' +
-          BookInfo.Authors.map(name => {
+      {Authors.length > 1
+        ? 'Authors:' +
+          Authors.map(name => {
             return name + ',';
           })
-        : 'Authors:' + BookInfo.Authors}
+        : 'Author: ' + Authors}
       <br />
-      Genre: {BookInfo.Genre}
+      Genre: {Genre}
       <br />
-      Audience: {BookInfo.Audience}
+      Audience: {Audience}
       <br />
       Tags:
       {BookInfo.Tags
