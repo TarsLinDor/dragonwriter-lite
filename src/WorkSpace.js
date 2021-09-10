@@ -21,10 +21,10 @@ export function WorkSpace(props) {
 }
 
 function Tool(props) {
-  const selected = props.Tabs.columns[props.column].selected;
-  const type = props.Tabs.tabs[selected].type;
-  console.log(props.column + ' => ' + selected + ': ' + type);
-  switch (type) {
+  //const selected = props.Tabs.columns[props.column].selected;
+  //const type = props.Tabs.tabs[selected].type;
+  //console.log(props.column + ' => ' + selected + ': ' + type);
+  switch (0) {
     case 'BookInfo':
       return <BookInfo {...props} />;
     case 'Editor':
