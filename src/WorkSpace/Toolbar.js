@@ -72,6 +72,11 @@ export function Toolbar(props) {
           onClick={() => addTool('Settings')}
           className="bi bi-gear"
         />
+        <Button
+          {...props}
+          onClick={() => addTool('Help')}
+          className="bi bi-question-diamond"
+        />
         <Button2
           {...props}
           //logout
