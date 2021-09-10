@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 const { Toolbar } = require('./WorkSpace/Toolbar.js');
 const { TabBar } = require('./WorkSpace/TabBar.js');
-const BookInfo = require('./WorkSpace/Tools/BookInfo.js');
+const {BookInfo} = require('./WorkSpace/Tools/BookInfo.js');
 
 export function WorkSpace(props) {
   const col = props.Tabs.columnOrder.length;
