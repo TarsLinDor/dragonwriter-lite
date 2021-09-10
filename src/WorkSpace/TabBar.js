@@ -1,30 +1,7 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 import '@atlaskit/css-reset';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  //flex-grow: 1;
-  max-height: 2em;
-  background-color: ${props => (props.darkmode ? 'inherit' : '#40526d')};
-`;
-const Split = styled.i`
-  position: absolute;
-  display: flex;
-  right: 0;
-  align-items: center;
-  height: 1em;
-  padding: 0.5em;
-  z-index: 2;
-  background-color: ${props => (props.darkmode ? 'rgb(50, 50, 50)' : '')};
-  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
-  &:hover {
-    color: rgb(200, 200, 200);
-  }'
-`;
 
 export function TabBar(props) {
   var state = props.Tabs;
@@ -167,7 +144,182 @@ export function TabBar(props) {
     </DragDropContext>
   );
 }
+function Column(props) {
+  return (
+    <Col>
+      <Droppable droppableId={props.column.id} direction="horizontal">
+        {(provided, snapshot) => (
+          <TabList
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+            {...props}
+          >
+            {props.tabs.map((tab, index) => (
+              <Tab key={tab.id} tab={tab} index={index} {...props} />
+            ))}
+            {provided.placeholder}
+          </TabList>
+        )}
+      </Droppable>
+    </Col>
+  );
+}
 
+function Tab(props) {
+  function setIcon(type) {
+    switch (type) {
+      case 'BookInfo':
+        return 'bi bi-bookmark';
+      case 'Editor':
+        return 'bi bi-vector-pen';
+      case 'Characters':
+        return 'bi bi-people';
+      case 'World':
+        return 'bi bi-tree';
+      case 'Outline':
+        return 'bi bi-snow3';
+      case 'Feedback':
+        return 'bi bi-arrow-repeat';
+      case 'Help':
+        return 'bi bi-question-diamond';
+      case 'Print':
+        return 'bi bi-printer';
+      case 'Settings':
+        return 'bi bi-gear';
+      default:
+        return 'bi bi-vector-pen';
+    }
+  }
+  function setSelected(id) {
+    var newState = {
+      ...props.Tabs
+    };
+    newState.columns[props.column.id].selected = id;
+    props.setTabs(newState);
+  }
+
+  function removeTab(id) {
+    var newState = {
+      ...props.Tabs
+    };
+    newState.columns[props.column.id].tabIds = newState.columns[
+      props.column.id
+    ].tabIds.filter(item => item !== id);
+    console.log(newState.columns[props.column.id].tabIds.length);
+    if (newState.columns[props.column.id].tabIds.length < 1) {
+      if (props.column.id =='Column-2'){
+        newState.columnOrder.pop();
+      }
+    }
+    delete newState.tabs[id];
+
+    console.log(newState);
+    props.setTabs(newState);
+    localStorage.tabs = JSON.stringify(newState);
+  }
+  return (
+    <Draggable draggableId={props.tab.id} index={props.index}>
+      {(provided, snapshot) => (
+        <TabItem
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+          isDragging={snapshot.isDragging}
+          darkmode={props.darkmode}
+          selected={
+            props.tab.id ==
+            props.Tabs.columns[
+              Object.keys(props.Tabs.columns)[props.columnIndex]
+            ].selected
+          }
+          onClick={() => setSelected(props.tab.id)}
+        >
+          {
+            <Handle
+              {...provided.dragHandleProps}
+              className={setIcon(props.tab.type)}
+            />
+          }
+          <Text>
+            {props.tab.location ? props.tab.location : props.tab.type}
+          </Text>
+          <Button
+            className="bi bi-x"
+            darkmode={props.darkmode}
+            onClick={() => removeTab(props.tab.id)}
+          />
+        </TabItem>
+      )}
+    </Draggable>
+  );
+}
+
+/*~~~~ CSS DEFINES ~~~~ */
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  //flex-grow: 1;
+  max-height: 2em;
+  background-color: ${props => (props.darkmode ? 'inherit' : '#40526d')};
+`;
+const Split = styled.i`
+  position: absolute;
+  display: flex;
+  right: 0;
+  align-items: center;
+  height: 1em;
+  padding: 0.5em;
+  z-index: 2;
+  background-color: ${props => (props.darkmode ? 'rgb(50, 50, 50)' : '')};
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+  &:hover {
+    color: rgb(200, 200, 200);
+  }'
+`;
+const TabItem = styled.div`
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+  height: 2em;
+  min-width: 6em;
+  max-width: 12em;
+  margin-right: ${props => (props.darkmode ? '1px' : '0px')};
+  border-right: ${props => (props.darkmode ? '1px' : '0px')};
+  background-color: ${props =>
+    props.darkmode
+      ? props.isDragging || props.selected
+        ? 'rgb(30,30,30)'
+        : 'rgb(45, 45, 45)'
+      : props.isDragging || props.selected
+      ? 'whitesmoke'
+      : 'lightgrey'};
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+`;
+
+const Handle = styled.div`
+  padding: 0em 0.25em 0em 0.25em;
+  display: flex;
+  align-items: center;
+`;
+const Button = styled.button`
+  border: 0;
+  padding: 0em 0em 0em 0.25em;
+  font-size: 1.1em;
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+  outline: none;
+  &:hover {
+    color: ${props => (props.darkmode ? 'grey' : 'rgb(200, 200, 200)')};
+  }
+  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
+`;
+const Text = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0.15em;
+`;
 const Col = styled.div`
   margin: 0px;
   //border-radius: 2px;
@@ -221,171 +373,3 @@ const TabList = styled.div`
   flex-grow: 1;
   align-content: center;
 `;
-
-function Column(props) {
-  return (
-    <Col>
-      <Droppable droppableId={props.column.id} direction="horizontal">
-        {(provided, snapshot) => (
-          <TabList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
-            {...props}
-          >
-            {props.tabs.map((tab, index) => (
-              <Tab key={tab.id} tab={tab} index={index} {...props} />
-            ))}
-            {provided.placeholder}
-          </TabList>
-        )}
-      </Droppable>
-    </Col>
-  );
-}
-
-const TabItem = styled.div`
-  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
-  height: 2em;
-  min-width: 6em;
-  max-width: 12em;
-  margin-right: ${props => (props.darkmode ? '1px' : '0px')};
-  border-right: ${props => (props.darkmode ? '1px' : '0px')};
-  background-color: ${props =>
-    props.darkmode
-      ? props.isDragging || props.selected
-        ? 'rgb(30,30,30)'
-        : 'rgb(45, 45, 45)'
-      : props.isDragging || props.selected
-      ? 'whitesmoke'
-      : 'lightgrey'};
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-`;
-
-const Handle = styled.div`
-  padding: 0em 0.25em 0em 0.25em;
-  display: flex;
-  align-items: center;
-`;
-const Button = styled.button`
-  border: 0;
-  padding: 0em 0em 0em 0.25em;
-  font-size: 1.1em;
-  background-color: inherit;
-  display: flex;
-  align-items: center;
-  outline: none;
-  &:hover {
-    color: ${props => (props.darkmode ? 'grey' : 'rgb(200, 200, 200)')};
-  }
-  color: ${props => (props.darkmode ? 'rgb(140, 140, 140)' : 'black')};
-`;
-const Text = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0.15em;
-`;
-
-function Tab(props) {
-  function setSelected(id) {
-    var newState = {
-      ...props.Tabs
-    };
-    newState.columns[props.column.id].selected = id;
-    props.setTabs(newState);
-  }
-
-  function removeTab(id) {
-    var newState = {
-      ...props.Tabs
-    };
-    delete newState.tabs[id];
-
-    for (let i = 0; i < Object.keys(newState.columns).length; i++) {
-      var column = newState.columns[Object.keys(newState.columns)[i]];
-      column.tabIds = column.tabIds.filter(item => item !== id);
-      if (column.selected == id) {
-        column.selected = column.tabIds[0] ? column.tabIds[0] : '';
-      } else {
-        column.selected = column.tabIds[0];
-      }
-      newState.columns[Object.keys(newState.columns)[i]] = column;
-    }
-    if (newState.columns[Object.keys(newState.columns)[1]].tabIds.length <= 0) {
-      newState.columnOrder.pop();
-    }
-    if (newState.columns[Object.keys(newState.columns)[0]].tabIds.length <= 0) {
-      newState.columns[Object.keys(newState.columns)[0]].tabIds =
-        newState.columns[Object.keys(newState.columns)[1]].tabIds;
-      newState.columns[Object.keys(newState.columns)[0]].selected =
-        newState.columns[Object.keys(newState.columns)[0]].selected;
-      newState.columnOrder.pop();
-    }
-
-    console.log(newState);
-    props.setTabs(newState);
-    localStorage.tabs = JSON.stringify(newState);
-  }
-  return (
-    <Draggable draggableId={props.tab.id} index={props.index}>
-      {(provided, snapshot) => (
-        <TabItem
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
-          darkmode={props.darkmode}
-          selected={
-            props.tab.id ==
-            props.Tabs.columns[
-              Object.keys(props.Tabs.columns)[props.columnIndex]
-            ].selected
-          }
-          onClick={() => setSelected(props.tab.id)}
-        >
-          {
-            <Handle
-              {...provided.dragHandleProps}
-              className={setIcon(props.tab.type)}
-            />
-          }
-          <Text>
-            {props.tab.location ? props.tab.location : props.tab.type}
-          </Text>
-          <Button
-            className="bi bi-x"
-            darkmode={props.darkmode}
-            onClick={() => removeTab(props.tab.id)}
-          />
-        </TabItem>
-      )}
-    </Draggable>
-  );
-}
-
-function setIcon(type) {
-  // Sets Which icon is visible in the tab.
-  switch (type) {
-    case 'BookInfo':
-      return 'bi bi-bookmark';
-    case 'Editor':
-      return 'bi bi-vector-pen';
-    case 'Characters':
-      return 'bi bi-people';
-    case 'World':
-      return 'bi bi-tree';
-    case 'Outline':
-      return 'bi bi-snow3';
-    case 'Feedback':
-      return 'bi bi-arrow-repeat';
-    case 'Help':
-      return 'bi bi-question-diamond';
-    case 'Print':
-      return 'bi bi-printer';
-    case 'Settings':
-      return 'bi bi-gear';
-    default:
-      return 'bi bi-vector-pen';
-  }
-}

@@ -25,7 +25,7 @@ const initialData = {
     },
     'column-2': {
       id: 'column-2',
-      selected: 'tab-2',
+      selected: '',
       tabIds: ['']
     }
   },
