@@ -11,16 +11,12 @@ const { NavBar } = require('./Navbar.js');
 const initialData = {
   tabs: {
     'tab-1': { id: 'tab-1', type: 'BookInfo' },
-    'tab-2': {
-      id: 'tab-2',
-      type: 'Editor',
-      location: 'Chapter 1'
-    }
+    'tab-2': { id: 'tab-2', type: 'Editor' }
   },
   columns: {
     'column-1': {
       id: 'column-1',
-      selected: 'tab-1',
+      selected: 'tab-2',
       tabIds: ['tab-1', 'tab-2']
     },
     'column-2': {
