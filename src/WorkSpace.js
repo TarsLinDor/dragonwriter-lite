@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-const { Toolbar } = require('./WorkSpace/Toolbar.js');
-const { TabBar } = require('./WorkSpace/TabBar.js');
-const {BookInfo} = require('./WorkSpace/Tools/BookInfo.js');
+const { Toolbar } = require('./Toolbar.js');
+const { TabBar } = require('./TabBar.js');
+const { BookInfo } = require('./Tools/BookInfo.js');
 
 export function WorkSpace(props) {
   const col = props.Tabs.columnOrder.length;
@@ -12,8 +12,8 @@ export function WorkSpace(props) {
       <Area {...props}>
         <TabBar {...props} />
         <ToolContianer>
-          {col > 0 ? <Tool {...props} Type="column-1" /> : ''}
-          {col > 1 ? <Tool {...props} Type="column-2" /> : ''}
+          {col > 0 ? <Tool {...props} column="column-1" /> : ''}
+          {col > 1 ? <Tool {...props} column="column-2" /> : ''}
         </ToolContianer>
       </Area>
     </Workspace>
@@ -21,13 +21,26 @@ export function WorkSpace(props) {
 }
 
 function Tool(props) {
-  const selected = props.Tabs.columns[props.Type].selected;
+  const selected = props.Tabs.columns[props.column].selected;
   const type = props.Tabs.tabs[selected].type;
+  console.log(props.column + ' => ' + selected + ': ' + type);
   switch (type) {
-    case 'Editor':
-      return <ToolItem {...props}>Editor</ToolItem>;
     case 'BookInfo':
       return <BookInfo {...props} />;
+    case 'Editor':
+      return <ToolItem {...props}>Editor</ToolItem>;
+    case 'World':
+      return <ToolItem {...props}>World</ToolItem>;
+    case 'Characters':
+      return <ToolItem {...props}>Characters</ToolItem>;
+    case 'Outline':
+      return <ToolItem {...props}>Outline</ToolItem>;
+    case 'Print':
+      return <ToolItem {...props}>Print</ToolItem>;
+    case 'Help':
+      return <ToolItem {...props}>Help</ToolItem>;
+    case 'Settings':
+      return <ToolItem {...props}>Settings</ToolItem>;
     default:
       return <ToolItem {...props}>Default</ToolItem>;
   }
