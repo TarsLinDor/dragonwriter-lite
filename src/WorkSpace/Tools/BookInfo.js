@@ -70,8 +70,8 @@ export default function BookInfo(props) {
       <br />
       {Authors.length > 1
         ? 'Authors:' +
-          Authors.map(name => {
-            return name + ',';
+          Authors.map((name, index) => {
+            return <a key={index}>{name} + ','</a>;
           })
         : 'Author: ' + Authors}
       <br />
@@ -95,8 +95,8 @@ export default function BookInfo(props) {
       <br />
       Tags: <br />
       {Tags
-        ? Tags.map(tag => {
-            return <TagItem>{tag}</TagItem>;
+        ? Tags.map((tag, index) => {
+            return <TagItem key={index}>{tag}</TagItem>;
           })
         : ''}
       <a className="bi bi-plus-circle" />
