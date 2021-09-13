@@ -4,7 +4,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 export function TabBar(props) {
-  var state = props.Tabs;
   function switch_view() {
     var newState = {
       ...props.Tabs
@@ -57,8 +56,8 @@ export function TabBar(props) {
       return;
     }
 
-    const start = state.columns[source.droppableId];
-    const finish = state.columns[destination.droppableId];
+    const start = props.Tabs.columns[source.droppableId];
+    const finish = props.Tabs.columns[destination.droppableId];
 
     if (start === finish) {
       const newTabIds = Array.from(start.tabIds);
@@ -71,9 +70,9 @@ export function TabBar(props) {
       };
 
       const newState = {
-        ...state,
+        ...props.Tabs,
         columns: {
-          ...state.columns,
+          ...props.Tabs.columns,
           [newColumn.id]: newColumn
         }
       };
@@ -99,9 +98,9 @@ export function TabBar(props) {
     };
 
     const newState = {
-      ...state,
+      ...props.Tabs,
       columns: {
-        ...state.columns,
+        ...props.Tabs.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish
       }
@@ -116,18 +115,14 @@ export function TabBar(props) {
 
   return (
     <DragDropContext onDragEnd={result => onDragEnd(result)}>
-      <Container darkmode={props.darkmode}>
-        {state.columnOrder.map((columnId, index) => {
-          const column = state.columns[columnId];
-          const tabs = column.tabIds.map(tabId => state.tabs[tabId]);
+      <Container {...props}>
+        {props.Tabs.columnOrder.map((columnId, index) => {
           return (
             <Column
               {...props}
-              key={column.id}
+              key={columnId}
               columnIndex={index}
-              column={column}
-              tabs={tabs}
-              darkmode={props.darkmode}
+              columnId={columnId}
             />
           );
         })}
@@ -147,7 +142,7 @@ export function TabBar(props) {
 function Column(props) {
   return (
     <Col>
-      <Droppable droppableId={props.column.id} direction="horizontal">
+      <Droppable droppableId={props.columnId} direction="horizontal">
         {(provided, snapshot) => (
           <TabList
             ref={provided.innerRef}
@@ -155,8 +150,8 @@ function Column(props) {
             isDraggingOver={snapshot.isDraggingOver}
             {...props}
           >
-            {props.tabs.map((tab, index) => (
-              <Tab key={tab.id} tab={tab} index={index} {...props} />
+            {props.Tabs.columns[props.columnId].tabIds.map((tab, index) => (
+              <Tab key={tab} tabId={tab} index={index} {...props} />
             ))}
             {provided.placeholder}
           </TabList>
@@ -195,7 +190,7 @@ function Tab(props) {
     var newState = {
       ...props.Tabs
     };
-    newState.columns[props.column.id].selected = id;
+    newState.columns[props.columnId].selected = id;
     props.setTabs(newState);
   }
 
@@ -203,50 +198,57 @@ function Tab(props) {
     var newState = {
       ...props.Tabs
     };
-    newState.columns[props.column.id].tabIds = newState.columns[
-      props.column.id
-    ].tabIds.filter(item => item !== id);
-    console.log(newState.columns[props.column.id].tabIds.length);
-    if (newState.columns[props.column.id].tabIds.length < 1) {
-      if (props.column.id =='Column-2'){
+
+    newState.columns[props.columnId].tabIds = newState.columns[
+      props.columnId
+    ].tabIds.filter(item => item !== id); //removes tab id from column specifer.
+
+    if (newState.columns[props.columnId].tabIds.length < 1) {
+      if (props.column.id == 'Column-2') {
         newState.columnOrder.pop();
       }
     }
     delete newState.tabs[id];
+    //remove and replace selected item:
+    if (
+      !newState.columns[props.columnId].tabIds.includes(
+        newState.columns[props.columnId].selected
+      )
+    ) {
+      newState.columns[props.columnId].selected =
+        newState.columns[props.columnId].tabIds[0];
+    }
 
     console.log(newState);
     props.setTabs(newState);
     localStorage.tabs = JSON.stringify(newState);
   }
   return (
-    <Draggable draggableId={props.tab.id} index={props.index}>
+    <Draggable draggableId={props.tabId} index={props.index}>
       {(provided, snapshot) => (
         <TabItem
           {...provided.draggableProps}
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           darkmode={props.darkmode}
-          selected={
-            props.tab.id ==
-            props.Tabs.columns[
-              Object.keys(props.Tabs.columns)[props.columnIndex]
-            ].selected
-          }
-          onClick={() => setSelected(props.tab.id)}
+          selected={props.tabId == props.Tabs.columns[props.columnId].selected}
+          onClick={() => setSelected(props.tabId)}
         >
           {
             <Handle
               {...provided.dragHandleProps}
-              className={setIcon(props.tab.type)}
+              className={setIcon(props.Tabs.tabs[props.tabId].type)}
             />
           }
           <Text>
-            {props.tab.location ? props.tab.location : props.tab.type}
+            {props.Tabs.tabs[props.tabId].location
+              ? props.Tabs.tabs[props.tabId].location
+              : props.Tabs.tabs[props.tabId].type}
           </Text>
           <Button
             className="bi bi-x"
             darkmode={props.darkmode}
-            onClick={() => removeTab(props.tab.id)}
+            onClick={() => removeTab(props.tabId)}
           />
         </TabItem>
       )}
