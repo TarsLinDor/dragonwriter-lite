@@ -128,7 +128,7 @@ const Title = styled.div`
   font-weight: bold;
   color: green;
 `;
-const Book = styled.a`
+const Book = styled.div`
   display: flex;
   //font-weight: bold;
   margin: 0 0.5em;
@@ -157,7 +157,7 @@ const Folder = styled.div`
   color: rgb(140, 140, 140);
   transition: content 2s linear 1s;
   &:hover {
-    color: blue;
+    color: white;
   }
 `;
 const Save = styled.div`
