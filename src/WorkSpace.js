@@ -21,12 +21,14 @@ export function WorkSpace(props) {
 }
 
 function Tool(props) {
-  //const selected = props.Tabs.columns[props.column].selected;
-  //const type = props.Tabs.tabs[selected].type;
-  //console.log(props.column + ' => ' + selected + ': ' + type);
-  switch (0) {
+  const selected = props.Tabs.columns[props.column].selected;
+  var type = undefined;
+  if (props.Tabs.tabs[selected]) {
+    type = props.Tabs.tabs[selected].type;
+  }
+  switch (type) {
     case 'BookInfo':
-      return <BookInfo {...props} />;
+      return <ToolItem {...props}>BookInfo</ToolItem>; //<BookInfo {...props} />;
     case 'Editor':
       return <ToolItem {...props}>Editor</ToolItem>;
     case 'World':
@@ -41,6 +43,8 @@ function Tool(props) {
       return <ToolItem {...props}>Help</ToolItem>;
     case 'Settings':
       return <ToolItem {...props}>Settings</ToolItem>;
+    case undefined:
+      return '';
     default:
       return <ToolItem {...props}>Default</ToolItem>;
   }
